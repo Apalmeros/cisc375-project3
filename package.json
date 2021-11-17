@@ -3,8 +3,8 @@
     "version": "0.0.0",
     "description": "RESTful Web Server and Single Page Application",
     "author": {
-        "name": "Nolan Jones",
-        "email": "Jone1905@stthomas.edu"
+        "name": "Antonio Palmeros",
+        "email": "palm1403@stthomas.edu"
     },
     "contributors": [
         {
@@ -12,8 +12,8 @@
             "email": "ever5748@stthomas.edu"
         },
         {
-            "name": "Antonio Palmeros",
-            "email": "palm1403@stthomas.edu"
+            "name": "Nolan Jones",
+            "email": "Jone1905@stthomas.edu"
         }
     ],
     "main": "server.js",
