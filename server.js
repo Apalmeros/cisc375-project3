@@ -71,7 +71,7 @@ app.get('/incidents', (req, res) => {
 // Respond with 'success' or 'error'
 app.put('/new-incident', (req, res) => {
     let url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
-
+    
     res.status(200).type('txt').send('success');
 });
 
