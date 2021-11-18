@@ -31,6 +31,12 @@ app.use(express.static(public_dir));
 // Respond with list of codes and their corresponding incident type
 app.get('/codes', (req, res) => {
     let url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
+    let code_id = $('#codes')[0].value;
+    let type_id = $('#type')[0].value;
+    let codes = '';
+    codes = 'code:' +  code_id + ','+ 'type:' + type_id;
+    
+    console.log(codes);
     
     res.status(200).type('json').send({});
 });
@@ -56,6 +62,13 @@ app.get('/incidents', (req, res) => {
 app.put('/new-incident', (req, res) => {
     let url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
 
+    res.status(200).type('txt').send('success');
+});
+
+// REST API: DELETE /remove-incident
+// Respond with 'success' or 'error'
+app.delete('/remove-incident', (req, res) => {
+    let url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
     res.status(200).type('txt').send('success');
 });
 
