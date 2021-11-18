@@ -31,14 +31,12 @@ app.use(express.static(public_dir));
 // Respond with list of codes and their corresponding incident type
 app.get('/codes', (req, res) => {
     let url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
-    let code_id = $('#codes')[0].value;
-    let type_id = $('#type')[0].value;
-    let codes = '';
-    codes = 'code:' +  code_id + ','+ 'type:' + type_id;
     
-    console.log(codes);
     
-    res.status(200).type('json').send({});
+    res.status(200).type('json').send({
+        codes: '',
+        type: '',
+    });
 });
 
 // REST API: GET /neighborhoods
@@ -46,7 +44,10 @@ app.get('/codes', (req, res) => {
 app.get('/neighborhoods', (req, res) => {
     let url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
 
-    res.status(200).type('json').send({});
+    res.status(200).type('json').send({
+        id: '',
+        name: ''
+    });
 });
 
 // REST API: GET/incidents
@@ -54,7 +55,16 @@ app.get('/neighborhoods', (req, res) => {
 app.get('/incidents', (req, res) => {
     let url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
 
-    res.status(200).type('json').send({});
+    res.status(200).type('json').send({
+        case_number: '',
+        date: '',
+        time: '',
+        code: '',
+        incident: '',
+        police_grid: '',
+        neighborhood_number: '',
+        block: ''
+    });
 });
 
 // REST API: PUT /new-incident
