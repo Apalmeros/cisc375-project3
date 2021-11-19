@@ -71,7 +71,19 @@ app.get('/incidents', (req, res) => {
 // Respond with 'success' or 'error'
 app.put('/new-incident', (req, res) => {
     let url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
-    
+    "incident":[
+        {
+              case_number: '',
+              date: '',
+              time: '',
+              code: '',
+              incident: '',
+              police_grid: '',
+              neighborhood_number: '',
+              block:''
+        }
+    ]
+    // need a test if res.status(500) because that means it is already in the database so we must reject this request
     res.status(200).type('txt').send('success');
 });
 
@@ -79,6 +91,12 @@ app.put('/new-incident', (req, res) => {
 // Respond with 'success' or 'error'
 app.delete('/remove-incident', (req, res) => {
     let url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
+    "remove-incident":[
+        {
+            case_number: ''       
+        }
+     ]
+    // need a test if res.status(500) because that means it is already in the database so we must reject this request
     res.status(200).type('txt').send('success');
 });
 
