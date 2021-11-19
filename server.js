@@ -32,8 +32,19 @@ app.use(express.static(public_dir));
 app.get('/codes', (req, res) => {
     let url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
     //make a query to the data base and then send that data
+    db.all('SELECT code, type FROM*', (err, data) => {
+       
+        if(data.length == 0)
+        {
+            res.status(404).send('ERROR: ');
+            return 0;
+        }
+        
+        
+        
+    });
     
-    res.status(200).type('json').send({});
+    res.status(200).type('json').send({data});
 });
 
 // REST API: GET /neighborhoods
