@@ -26,6 +26,7 @@ let db = new sqlite3.Database(db_filename, sqlite3.OPEN_READWRITE, (err) => {
 });
 
 app.use(express.static(public_dir));
+app.use(express.json());
 
 
 // REST API: GET /codes
@@ -126,17 +127,20 @@ app.get('/incidents', (req, res) => {
 // Respond with 'success' or 'error'
 app.put('/new-incident', (req, res) => {
     let url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
+    console.log(req.body);
     //make a query to the data base and then send that data
-    db.get('SELECT * FROM Incidents', (err, data) => {
+    db.get('SELECT * FROM Incidents WHERE case_number = ?', [req.body.case_number], (err, data) => {
         if(err || data !== undefined)
         {
             res.status(500).type('txt').send("Error: Could not insert into Incidents");
         }
         else
         {
-            db.run('INSERT INTO Incidents (case_number, date, time, code, incident, police_grid, neighborhood_number, block) VALUES( ? , ? , ? , ? , ? , ? , ? , ? )', [req.body.case_number, req.body.date, req.body.time, req.body.code, req.body.incident, req.body.police_grid, req.body.neighborhood_number, req.body.block], (err) =>{
-                res.status(200).type('txt').send('success');
-            });
+            //db.run('INSERT INTO Incidents (case_number, date, time, code, incident, police_grid, neighborhood_number, block) VALUES( ? , ? , ? , ? , ? , ? , ? , ? )', [req.body.case_number, req.body.date, req.body.time, req.body.code, req.body.incident, req.body.police_grid, req.body.neighborhood_number, req.body.block], (err) =>{
+                // concatenate date and time bofore you put into the data base
+              //  res.status(200).type('txt').send('success');
+            //});
+            res.status(200).type('txt').send('success: ' + req.body.case_number);
         }
     });
    
@@ -147,10 +151,10 @@ app.put('/new-incident', (req, res) => {
 app.delete('/remove-incident', (req, res) => {
     let url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
     //make a query to the data base and then send that data
-    db.get('SELECT * FROM Incidents', (err, data) => {
-        if(err || data !== undefined)
+    db.get('SELECT * FROM Incidents WHERE case_number = ?', [req.body.case_number], (err, data) => {
+        if(err || data === undefined)
         {
-            res.status(500).type('txt').send("Error: Could not insert into Incidents");
+            res.status(500).type('txt').send("Error: Could not delete from Incidents");
         }
         else
         {
