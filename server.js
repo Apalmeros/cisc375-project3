@@ -31,47 +31,44 @@ app.use(express.static(public_dir));
 // Respond with list of codes and their corresponding incident type
 app.get('/codes', (req, res) => {
     let url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
-    
-    
-    res.status(200).type('json').send({
-        codes: '',
-        type: '',
+    //make a query to the data base and then send that data
+    db.all('SELECT code, type FROM*', (err, data) => {
+       
+        if(data.length == 0)
+        {
+            res.status(404).send('ERROR: ');
+            return 0;
+        }
+        
+        
+        
     });
+    
+    res.status(200).type('json').send({data});
 });
 
 // REST API: GET /neighborhoods
 // Respond with list of neighborhood ids and their corresponding neighborhood name
 app.get('/neighborhoods', (req, res) => {
     let url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
-
-    res.status(200).type('json').send({
-        id: '',
-        name: ''
-    });
+    //make a query to the data base and then send that data
+    res.status(200).type('json').send({});
 });
 
 // REST API: GET/incidents
 // Respond with list of crime incidents
 app.get('/incidents', (req, res) => {
     let url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
-
-    res.status(200).type('json').send({
-        case_number: '',
-        date: '',
-        time: '',
-        code: '',
-        incident: '',
-        police_grid: '',
-        neighborhood_number: '',
-        block: ''
-    });
+    //make a query to the data base and then send that data
+    res.status(200).type('json').send({});
 });
 
 // REST API: PUT /new-incident
 // Respond with 'success' or 'error'
 app.put('/new-incident', (req, res) => {
     let url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
-    
+    //make a query to the data base and then send that data
+    // need a test if res.status(500) because that means it is already in the database so we must reject this request
     res.status(200).type('txt').send('success');
 });
 
@@ -79,6 +76,8 @@ app.put('/new-incident', (req, res) => {
 // Respond with 'success' or 'error'
 app.delete('/remove-incident', (req, res) => {
     let url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
+    //make a query to the data base and then send that data
+    // need a test if res.status(500) because that means it is already in the database so we must reject this request
     res.status(200).type('txt').send('success');
 });
 
