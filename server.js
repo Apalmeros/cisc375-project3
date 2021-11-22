@@ -4,6 +4,7 @@ let path = require('path');
 // NPM modules
 let express = require('express');
 let sqlite3 = require('sqlite3');
+let cors = require('cors');
 const { stringify } = require('querystring');
 
 
@@ -27,6 +28,7 @@ let db = new sqlite3.Database(db_filename, sqlite3.OPEN_READWRITE, (err) => {
 
 app.use(express.static(public_dir));
 app.use(express.json());
+app.use(cors());
 
 
 // REST API: GET /codes
@@ -136,12 +138,22 @@ app.put('/new-incident', (req, res) => {
         }
         else
         {
-            db.run('INSERT INTO Incidents (case_number, date, time, code, incident, police_grid, neighborhood_number, block) VALUES( ? , ? , ? , ? , ? , ? , ? , ? )', [req.body.case_number, req.body.date, req.body.time, req.body.code, req.body.incident, req.body.police_grid, req.body.neighborhood_number, req.body.block], (err) =>{
+            db.run('INSERT INTO Incidents (case_number, date_time, code, incident, police_grid, neighborhood_number, block) VALUES( ? , ? , ? , ? , ? , ? , ? )', [req.body.case_number, req.body.date + 'T' + req.body.time, req.body.code, req.body.incident, req.body.police_grid, req.body.neighborhood_number, req.body.block], (err) =>{
                 // concatenate date and time bofore you put into the data base
-                req.body.date_time = req.body.date + 'T' + req.body.time;
-                //res.status(200).type('txt').send('success');
+                let result = '';
+                if(err)
+                {
+                    res.status(500).type('txt').send(err);
+                }
+                else
+                {
+                    req.body.date_time = req.body.date + 'T' + req.body.time;
+                    result += req.body.case_number + ' , ' + req.body.date_time + ' , ' + req.body.code + ' , ' + req.body.incident + ' , ' + req.body.police_grid + ' , ' + req.body.neighborhood_number + ' , ' + req.body.block;
+                    res.status(200).type('txt').send(result);
+                }
+                
             });
-            res.status(200).type('txt').send('success: ' + req.body.case_number + req.body.date_time);
+            //res.status(200).type('txt').send('success: ' + req.body.case_number + req.body.date_time);
         }
     });
    
