@@ -136,11 +136,12 @@ app.put('/new-incident', (req, res) => {
         }
         else
         {
-            //db.run('INSERT INTO Incidents (case_number, date, time, code, incident, police_grid, neighborhood_number, block) VALUES( ? , ? , ? , ? , ? , ? , ? , ? )', [req.body.case_number, req.body.date, req.body.time, req.body.code, req.body.incident, req.body.police_grid, req.body.neighborhood_number, req.body.block], (err) =>{
+            db.run('INSERT INTO Incidents (case_number, date, time, code, incident, police_grid, neighborhood_number, block) VALUES( ? , ? , ? , ? , ? , ? , ? , ? )', [req.body.case_number, req.body.date, req.body.time, req.body.code, req.body.incident, req.body.police_grid, req.body.neighborhood_number, req.body.block], (err) =>{
                 // concatenate date and time bofore you put into the data base
-              //  res.status(200).type('txt').send('success');
-            //});
-            res.status(200).type('txt').send('success: ' + req.body.case_number);
+                req.body.date_time = req.body.date + 'T' + req.body.time;
+                //res.status(200).type('txt').send('success');
+            });
+            res.status(200).type('txt').send('success: ' + req.body.case_number + req.body.date_time);
         }
     });
    
@@ -158,8 +159,8 @@ app.delete('/remove-incident', (req, res) => {
         }
         else
         {
-            db.run('DELETE FROM Incidents WHERE case_number = ?', [req.params.case_number], (err) =>{
-                // is it body or params
+            db.run('DELETE FROM Incidents WHERE case_number = ?', [req.body.case_number], (err) =>{
+                
                 res.status(200).type('txt').send('success');
             });
         }
