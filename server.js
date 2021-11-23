@@ -4,6 +4,7 @@ let path = require('path');
 // NPM modules
 let express = require('express');
 let sqlite3 = require('sqlite3');
+const { stringify } = require('querystring');
 
 
 let app = express();
@@ -25,6 +26,7 @@ let db = new sqlite3.Database(db_filename, sqlite3.OPEN_READWRITE, (err) => {
 });
 
 app.use(express.static(public_dir));
+app.use(express.json());
 
 
 // REST API: GET /codes
@@ -32,19 +34,28 @@ app.use(express.static(public_dir));
 app.get('/codes', (req, res) => {
     let url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
     //make a query to the data base and then send that data
-    db.all('SELECT code, type FROM*', (err, data) => {
-       
+    db.all('SELECT code, incident_type FROM Codes ORDER BY code', (err, data) => {
+        let codeData = '';
+        let result = '';
         if(data.length == 0)
         {
             res.status(404).send('ERROR: ');
             return 0;
         }
-        
-        
-        
+        else
+        {
+            
+            let i;
+            for(i = 0; i < data.length; i++)
+            {
+                codeData +=  '{' +'"code": ' + data[i].code + ',' + '"type": ' + data[i].incident_type + '}'+ ',' + '\n';
+            }
+            console.log(codeData);
+        }
+        result += '['+ '\n' + codeData + ']';
+        res.status(200).type('json').send(result);
     });
     
-    res.status(200).type('json').send({data});
 });
 
 // REST API: GET /neighborhoods
@@ -52,7 +63,27 @@ app.get('/codes', (req, res) => {
 app.get('/neighborhoods', (req, res) => {
     let url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
     //make a query to the data base and then send that data
-    res.status(200).type('json').send({});
+    db.all('SELECT neighborhood_number, neighborhood_name FROM Neighborhoods ORDER BY neighborhood_number', (err, data) => {
+        let codeData ='';
+        let result = '';
+        if(data.length == 0)
+        {
+             res.status(404).send('ERROR: ');
+            return 0;
+        }
+        else
+        {
+                
+             let i;
+            for(i = 0; i < data.length; i++)
+            {
+                codeData +=  '{' +'"id": ' + data[i].neighborhood_number + ',' + '"name": ' + data[i].neighborhood_name + '}'+ ',' + '\n';
+            }
+            console.log(codeData);
+        }
+        result += '[' + '\n' + codeData + ']';
+        res.status(200).type('json').send(result);
+    });
 });
 
 // REST API: GET/incidents
@@ -60,16 +91,60 @@ app.get('/neighborhoods', (req, res) => {
 app.get('/incidents', (req, res) => {
     let url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
     //make a query to the data base and then send that data
-    res.status(200).type('json').send({});
+    db.all('SELECT case_number, date_time, code, incident, police_grid, neighborhood_number, block  FROM Incidents ORDER BY date_time', (err, data) => {
+        let codeData ='';
+        let result = '';
+        if(data.length == 0)
+        {
+             res.status(404).send('ERROR: ');
+            return 0;
+        }
+        else
+        {
+                
+             let i;
+             let date = '';
+             let time = '';
+             let date_time_split ='';
+            for(i = 0; i < data.length; i++)
+            {
+                date_time_split = data[i].date_time.split('T');
+                date = date_time_split[0];
+                time = date_time_split[1];
+                codeData +=  '{' +'"case_number": ' + data[i].case_number + ',' + '\n' + '"date": ' + date + ',' + '\n' + '"time": ' + time +
+                ',' + '\n' + '"code": ' + data[i].code + ',' + '\n' +'"incident": ' + data[i].incident + ',' + '\n' + '"police_grid": ' + data[i].police_grid +
+                ',' + '\n' + '"neighborhood_number": ' + data[i].neighborhood_number + ',' + '\n' + '"block": ' + data[i].block + '\n' + '}'+ ',' + '\n';
+            }
+            
+            console.log(codeData);
+        }
+        result += '[' + '\n' + codeData + ']';    
+        res.status(200).type('json').send(result);
+    });
 });
 
 // REST API: PUT /new-incident
 // Respond with 'success' or 'error'
 app.put('/new-incident', (req, res) => {
     let url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
+    console.log(req.body);
     //make a query to the data base and then send that data
-    // need a test if res.status(500) because that means it is already in the database so we must reject this request
-    res.status(200).type('txt').send('success');
+    db.get('SELECT * FROM Incidents WHERE case_number = ?', [req.body.case_number], (err, data) => {
+        if(err || data !== undefined)
+        {
+            res.status(500).type('txt').send("Error: Could not insert into Incidents");
+        }
+        else
+        {
+            db.run('INSERT INTO Incidents (case_number, date, time, code, incident, police_grid, neighborhood_number, block) VALUES( ? , ? , ? , ? , ? , ? , ? , ? )', [req.body.case_number, req.body.date, req.body.time, req.body.code, req.body.incident, req.body.police_grid, req.body.neighborhood_number, req.body.block], (err) =>{
+                // concatenate date and time bofore you put into the data base
+                req.body.date_time = req.body.date + 'T' + req.body.time;
+                //res.status(200).type('txt').send('success');
+            });
+            res.status(200).type('txt').send('success: ' + req.body.case_number + req.body.date_time);
+        }
+    });
+   
 });
 
 // REST API: DELETE /remove-incident
@@ -77,8 +152,20 @@ app.put('/new-incident', (req, res) => {
 app.delete('/remove-incident', (req, res) => {
     let url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
     //make a query to the data base and then send that data
-    // need a test if res.status(500) because that means it is already in the database so we must reject this request
-    res.status(200).type('txt').send('success');
+    db.get('SELECT * FROM Incidents WHERE case_number = ?', [req.body.case_number], (err, data) => {
+        if(err || data === undefined)
+        {
+            res.status(500).type('txt').send("Error: Could not delete from Incidents");
+        }
+        else
+        {
+            db.run('DELETE FROM Incidents WHERE case_number = ?', [req.body.case_number], (err) =>{
+                
+                res.status(200).type('txt').send('success');
+            });
+        }
+    });
+    
 });
 
 
