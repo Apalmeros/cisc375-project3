@@ -139,7 +139,7 @@ app.put('/new-incident', (req, res) => {
         else
         {
             db.run('INSERT INTO Incidents (case_number, date_time, code, incident, police_grid, neighborhood_number, block) VALUES( ? , ? , ? , ? , ? , ? , ? )', [req.body.case_number, req.body.date + 'T' + req.body.time, req.body.code, req.body.incident, req.body.police_grid, req.body.neighborhood_number, req.body.block], (err) =>{
-                // concatenate date and time bofore you put into the data base
+                
                 let result = '';
                 if(err)
                 {
@@ -153,7 +153,7 @@ app.put('/new-incident', (req, res) => {
                 }
                 
             });
-            //res.status(200).type('txt').send('success: ' + req.body.case_number + req.body.date_time);
+            
         }
     });
    
