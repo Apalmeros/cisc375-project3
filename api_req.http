@@ -1,0 +1,22 @@
+put http://localhost:8000/new-incident
+Content-Type: application/json
+
+{
+    "case_number": "15000000",
+    "date": "2021-08-14",
+    "time": "00:00:00",
+    "code": 555,
+    "incident": "test",
+    "police_grid": 555,
+    "neighborhood_number": 555,
+    "block": "test_block"
+}
+
+###
+
+delete http://localhost:8000/remove-incident
+Content-Type: application/json
+
+{
+    "case_number": "15000000"
+}
