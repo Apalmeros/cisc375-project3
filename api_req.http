@@ -20,3 +20,10 @@ Content-Type: application/json
 {
     "case_number": "15000000"
 }
+
+###
+
+get http://localhost:8000/codes?code=110,120
+
+###
+get http://localhost:8000/codes
