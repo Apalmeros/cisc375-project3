@@ -36,28 +36,72 @@ app.use(cors());
 app.get('/codes', (req, res) => {
     let url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
     //make a query to the data base and then send that data
-    db.all('SELECT code, incident_type FROM Codes ORDER BY code', (err, data) => {
-        let codeData = '';
-        let result = '';
-        if(data.length == 0)
-        {
-            res.status(404).send('ERROR: ');
-            return 0;
-        }
-        else
-        {
-            
-            let i;
-            for(i = 0; i < data.length; i++)
+    if(!req.query.code)
+    {
+        db.all('SELECT code, incident_type FROM Codes ORDER BY code', (err, data) => {
+            let codeData = '';
+            let result = '';
+            if(data.length == 0)
             {
-                codeData +=  '{' +'"code": ' + data[i].code + ',' + '"type": ' + data[i].incident_type + '}'+ ',' + '\n';
+                res.status(404).send('ERROR: ');
+                return 0;
             }
-            console.log(codeData);
-        }
-        result += '['+ '\n' + codeData + ']';
-        res.status(200).type('json').send(result);
-    });
+            else
+            {
+                
+                let i;
+                for(i = 0; i < data.length; i++)
+                {
+                    codeData +=  '{' +'"code": ' + data[i].code + ',' + '"type": ' + data[i].incident_type + '}'+ ',' + '\n';
+                }
+                console.log(codeData);
+            }
+            result += '['+ '\n' + codeData + ']';
+            res.status(200).type('json').send(result); 
+        });
+    }
+    else
+    {
+        let code_array = req.query.code;
+        let code_array_split = code_array.split(',');
     
+        let i;
+        let question_mark_string = "";
+        for(i = 0; i < code_array_split.length; i++)
+        {
+            if(i == code_array_split.length - 1)
+            {
+                question_mark_string = question_mark_string + '?';
+            }
+            else
+            {
+                question_mark_string = question_mark_string + '?,';
+            }
+            
+        }
+    
+        db.all('SELECT code, incident_type FROM Codes WHERE code IN (' + question_mark_string + ') ', code_array_split, (err, data) => {
+            let codeData = '';
+            let result = '';
+            if(data.length == 0)
+            {
+                res.status(404).send('ERROR: ');
+                return 0;
+            }
+            else
+            {
+                
+                let i;
+                for(i = 0; i < data.length; i++)
+                {
+                    codeData +=  '{' +'"code": ' + data[i].code + ',' + '"type": ' + data[i].incident_type + '}'+ ',' + '\n';
+                }
+                console.log(codeData);
+            }
+            result += '['+ '\n' + codeData + ']';
+            res.status(200).type('json').send(result);
+        });
+    }
 });
 
 // REST API: GET /neighborhoods
@@ -65,27 +109,72 @@ app.get('/codes', (req, res) => {
 app.get('/neighborhoods', (req, res) => {
     let url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
     //make a query to the data base and then send that data
-    db.all('SELECT neighborhood_number, neighborhood_name FROM Neighborhoods ORDER BY neighborhood_number', (err, data) => {
-        let codeData ='';
-        let result = '';
-        if(data.length == 0)
-        {
-             res.status(404).send('ERROR: ');
-            return 0;
-        }
-        else
-        {
-                
-             let i;
-            for(i = 0; i < data.length; i++)
+    if(!req.query.id)
+    {
+        db.all('SELECT neighborhood_number, neighborhood_name FROM Neighborhoods', (err, data) =>{
+            let codeData ='';
+            let result = '';
+            if(data.length == 0)
             {
-                codeData +=  '{' +'"id": ' + data[i].neighborhood_number + ',' + '"name": ' + data[i].neighborhood_name + '}'+ ',' + '\n';
+                res.status(404).send('ERROR: ');
+                return 0;
             }
-            console.log(codeData);
+            else
+            {
+                    
+                let i;
+                for(i = 0; i < data.length; i++)
+                {
+                    codeData +=  '{' +'"id": ' + data[i].neighborhood_number + ',' + '"name": ' + data[i].neighborhood_name + '}'+ ',' + '\n';
+                }
+                console.log(codeData);
+            }
+            result += '[' + '\n' + codeData + ']';
+            res.status(200).type('json').send(result);
+        });
+    }
+    else
+    {
+        let code_array = req.query.id;
+        let code_array_split = code_array.split(",");
+
+        let i;
+        let question_mark_string = "";
+        for(i = 0; i < code_array_split.length; i++)
+        {
+            if(i == code_array_split.length - 1)
+            {
+                question_mark_string = question_mark_string + "?";
+            }
+            else
+            {
+                question_mark_string = question_mark_string + "?,";
+            }
+            
         }
-        result += '[' + '\n' + codeData + ']';
-        res.status(200).type('json').send(result);
-    });
+
+        db.all('SELECT neighborhood_number, neighborhood_name FROM Neighborhoods WHERE neighborhood_number IN (' + question_mark_string + ') ', code_array_split, (err, data) => {
+            let codeData ='';
+            let result = '';
+            if(data.length == 0)
+            {
+                res.status(404).send('ERROR: ');
+                return 0;
+            }
+            else
+            {
+                    
+                let i;
+                for(i = 0; i < data.length; i++)
+                {
+                    codeData +=  '{' +'"id": ' + data[i].neighborhood_number + ',' + '"name": ' + data[i].neighborhood_name + '}'+ ',' + '\n';
+                }
+                console.log(codeData);
+            }
+            result += '[' + '\n' + codeData + ']';
+            res.status(200).type('json').send(result);
+        });
+    }
 });
 
 // REST API: GET/incidents
@@ -93,36 +182,60 @@ app.get('/neighborhoods', (req, res) => {
 app.get('/incidents', (req, res) => {
     let url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
     //make a query to the data base and then send that data
-    db.all('SELECT case_number, date_time, code, incident, police_grid, neighborhood_number, block  FROM Incidents ORDER BY date_time', (err, data) => {
-        let codeData ='';
-        let result = '';
-        if(data.length == 0)
-        {
-             res.status(404).send('ERROR: ');
-            return 0;
-        }
-        else
-        {
-                
-             let i;
-             let date = '';
-             let time = '';
-             let date_time_split ='';
-            for(i = 0; i < data.length; i++)
+    if(!req.query)
+    {
+        db.all('SELECT case_number, date_time, code, incident, police_grid, neighborhood_number, block  FROM Incidents ORDER BY date_time', (err, data) => {
+            let codeData ='';
+            let result = '';
+            if(data.length == 0)
             {
-                date_time_split = data[i].date_time.split('T');
-                date = date_time_split[0];
-                time = date_time_split[1];
-                codeData +=  '{' +'"case_number": ' + data[i].case_number + ',' + '\n' + '"date": ' + date + ',' + '\n' + '"time": ' + time +
-                ',' + '\n' + '"code": ' + data[i].code + ',' + '\n' +'"incident": ' + data[i].incident + ',' + '\n' + '"police_grid": ' + data[i].police_grid +
-                ',' + '\n' + '"neighborhood_number": ' + data[i].neighborhood_number + ',' + '\n' + '"block": ' + data[i].block + '\n' + '}'+ ',' + '\n';
+                 res.status(404).send('ERROR: ');
+                return 0;
+            }
+            else
+            {
+                 
+
+                 let i;
+                 let date = '';
+                 let time = '';
+                 let date_time_split ='';
+                for(i = 0; i < data.length; i++)
+                {
+                    date_time_split = data[i].date_time.split('T');
+                    date = date_time_split[0];
+                    time = date_time_split[1];
+                    codeData +=  '{' +'"case_number": ' + data[i].case_number + ',' + '\n' + '"date": ' + date + ',' + '\n' + '"time": ' + time +
+                    ',' + '\n' + '"code": ' + data[i].code + ',' + '\n' +'"incident": ' + data[i].incident + ',' + '\n' + '"police_grid": ' + data[i].police_grid +
+                    ',' + '\n' + '"neighborhood_number": ' + data[i].neighborhood_number + ',' + '\n' + '"block": ' + data[i].block + '\n' + '}'+ ',' + '\n';
+                }
+                
+                console.log(codeData);
+            }
+            result += '[' + '\n' + codeData + ']';    
+            res.status(200).type('json').send(result);
+        });
+    }
+    else
+    {
+        let code_array = req.query;
+        let code_array_split = code_array.split(",");
+        let i;
+        let question_mark_string = "";
+        for(i = 0; i < code_array_split.length; i++)
+        {
+            if(i == question_mark_string.length - 1)
+            {
+                question_mark_string = question_mark_string + "?";
+            }
+            else
+            {
+                question_mark_string = question_mark_string + "?,";
             }
             
-            console.log(codeData);
         }
-        result += '[' + '\n' + codeData + ']';    
-        res.status(200).type('json').send(result);
-    });
+        console.log(req.query);
+    }
 });
 
 // REST API: PUT /new-incident
