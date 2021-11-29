@@ -36,46 +36,72 @@ app.use(cors());
 app.get('/codes', (req, res) => {
     let url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
     //make a query to the data base and then send that data
-    let code_array = req.query.code;
-    let code_array_split = code_array.split(",");
-
-    let i;
-    let question_mark_string = "";
-    for(i = 0; i < code_array_split.length; i++)
+    if(!req.query.code)
     {
-        if(i == code_array_split.length - 1)
-        {
-            question_mark_string = question_mark_string + "?";
-        }
-        else
-        {
-            question_mark_string = question_mark_string + "?,";
-        }
-        
-    }
-
-    db.all('SELECT code, incident_type FROM Codes WHERE code IN (' + question_mark_string + ') ', code_array_split, (err, data) => {
-        let codeData = '';
-        let result = '';
-        if(data.length == 0)
-        {
-            res.status(404).send('ERROR: ');
-            return 0;
-        }
-        else
-        {
-            
-            let i;
-            for(i = 0; i < data.length; i++)
+        db.all('SELECT code, incident_type FROM Codes ORDER BY code', (err, data) => {
+            let codeData = '';
+            let result = '';
+            if(data.length == 0)
             {
-                codeData +=  '{' +'"code": ' + data[i].code + ',' + '"type": ' + data[i].incident_type + '}'+ ',' + '\n';
+                res.status(404).send('ERROR: ');
+                return 0;
             }
-            console.log(codeData);
-        }
-        result += '['+ '\n' + codeData + ']';
-        res.status(200).type('json').send(result);
-    });
+            else
+            {
+                
+                let i;
+                for(i = 0; i < data.length; i++)
+                {
+                    codeData +=  '{' +'"code": ' + data[i].code + ',' + '"type": ' + data[i].incident_type + '}'+ ',' + '\n';
+                }
+                console.log(codeData);
+            }
+            result += '['+ '\n' + codeData + ']';
+            res.status(200).type('json').send(result); 
+        });
+    }
+    else
+    {
+        let code_array = req.query.code;
+        let code_array_split = code_array.split(',');
     
+        let i;
+        let question_mark_string = "";
+        for(i = 0; i < code_array_split.length; i++)
+        {
+            if(i == code_array_split.length - 1)
+            {
+                question_mark_string = question_mark_string + '?';
+            }
+            else
+            {
+                question_mark_string = question_mark_string + '?,';
+            }
+            
+        }
+    
+        db.all('SELECT code, incident_type FROM Codes WHERE code IN (' + question_mark_string + ') ', code_array_split, (err, data) => {
+            let codeData = '';
+            let result = '';
+            if(data.length == 0)
+            {
+                res.status(404).send('ERROR: ');
+                return 0;
+            }
+            else
+            {
+                
+                let i;
+                for(i = 0; i < data.length; i++)
+                {
+                    codeData +=  '{' +'"code": ' + data[i].code + ',' + '"type": ' + data[i].incident_type + '}'+ ',' + '\n';
+                }
+                console.log(codeData);
+            }
+            result += '['+ '\n' + codeData + ']';
+            res.status(200).type('json').send(result);
+        });
+    }
 });
 
 // REST API: GET /neighborhoods
@@ -83,45 +109,72 @@ app.get('/codes', (req, res) => {
 app.get('/neighborhoods', (req, res) => {
     let url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
     //make a query to the data base and then send that data
-    let code_array = req.query.id;
-    let code_array_split = code_array.split(",");
-
-    let i;
-    let question_mark_string = "";
-    for(i = 0; i < code_array_split.length; i++)
+    if(!req.query.id)
     {
-        if(i == code_array_split.length - 1)
-        {
-            question_mark_string = question_mark_string + "?";
-        }
-        else
-        {
-            question_mark_string = question_mark_string + "?,";
-        }
-        
-    }
-
-    db.all('SELECT neighborhood_number, neighborhood_name FROM Neighborhoods WHERE neighborhood_number IN (' + question_mark_string + ') ', code_array_split, (err, data) => {
-        let codeData ='';
-        let result = '';
-        if(data.length == 0)
-        {
-             res.status(404).send('ERROR: ');
-            return 0;
-        }
-        else
-        {
-                
-             let i;
-            for(i = 0; i < data.length; i++)
+        db.all('SELECT neighborhood_number, neighborhood_name FROM Neighborhoods', (err, data) =>{
+            let codeData ='';
+            let result = '';
+            if(data.length == 0)
             {
-                codeData +=  '{' +'"id": ' + data[i].neighborhood_number + ',' + '"name": ' + data[i].neighborhood_name + '}'+ ',' + '\n';
+                res.status(404).send('ERROR: ');
+                return 0;
             }
-            console.log(codeData);
+            else
+            {
+                    
+                let i;
+                for(i = 0; i < data.length; i++)
+                {
+                    codeData +=  '{' +'"id": ' + data[i].neighborhood_number + ',' + '"name": ' + data[i].neighborhood_name + '}'+ ',' + '\n';
+                }
+                console.log(codeData);
+            }
+            result += '[' + '\n' + codeData + ']';
+            res.status(200).type('json').send(result);
+        });
+    }
+    else
+    {
+        let code_array = req.query.id;
+        let code_array_split = code_array.split(",");
+
+        let i;
+        let question_mark_string = "";
+        for(i = 0; i < code_array_split.length; i++)
+        {
+            if(i == code_array_split.length - 1)
+            {
+                question_mark_string = question_mark_string + "?";
+            }
+            else
+            {
+                question_mark_string = question_mark_string + "?,";
+            }
+            
         }
-        result += '[' + '\n' + codeData + ']';
-        res.status(200).type('json').send(result);
-    });
+
+        db.all('SELECT neighborhood_number, neighborhood_name FROM Neighborhoods WHERE neighborhood_number IN (' + question_mark_string + ') ', code_array_split, (err, data) => {
+            let codeData ='';
+            let result = '';
+            if(data.length == 0)
+            {
+                res.status(404).send('ERROR: ');
+                return 0;
+            }
+            else
+            {
+                    
+                let i;
+                for(i = 0; i < data.length; i++)
+                {
+                    codeData +=  '{' +'"id": ' + data[i].neighborhood_number + ',' + '"name": ' + data[i].neighborhood_name + '}'+ ',' + '\n';
+                }
+                console.log(codeData);
+            }
+            result += '[' + '\n' + codeData + ']';
+            res.status(200).type('json').send(result);
+        });
+    }
 });
 
 // REST API: GET/incidents
