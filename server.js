@@ -218,22 +218,7 @@ app.get('/incidents', (req, res) => {
     }
     else
     {
-        let code_array = req.query;
-        let code_array_split = code_array.split(",");
-        let i;
-        let question_mark_string = "";
-        for(i = 0; i < code_array_split.length; i++)
-        {
-            if(i == question_mark_string.length - 1)
-            {
-                question_mark_string = question_mark_string + "?";
-            }
-            else
-            {
-                question_mark_string = question_mark_string + "?,";
-            }
-            
-        }
+        
         console.log(req.query);
     }
 });
