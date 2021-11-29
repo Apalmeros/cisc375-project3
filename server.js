@@ -182,36 +182,43 @@ app.get('/neighborhoods', (req, res) => {
 app.get('/incidents', (req, res) => {
     let url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
     //make a query to the data base and then send that data
-    db.all('SELECT case_number, date_time, code, incident, police_grid, neighborhood_number, block  FROM Incidents ORDER BY date_time', (err, data) => {
-        let codeData ='';
-        let result = '';
-        if(data.length == 0)
-        {
-             res.status(404).send('ERROR: ');
-            return 0;
-        }
-        else
-        {
-                
-             let i;
-             let date = '';
-             let time = '';
-             let date_time_split ='';
-            for(i = 0; i < data.length; i++)
+    if(!req.query)
+    {
+        db.all('SELECT case_number, date_time, code, incident, police_grid, neighborhood_number, block  FROM Incidents ORDER BY date_time', (err, data) => {
+            let codeData ='';
+            let result = '';
+            if(data.length == 0)
             {
-                date_time_split = data[i].date_time.split('T');
-                date = date_time_split[0];
-                time = date_time_split[1];
-                codeData +=  '{' +'"case_number": ' + data[i].case_number + ',' + '\n' + '"date": ' + date + ',' + '\n' + '"time": ' + time +
-                ',' + '\n' + '"code": ' + data[i].code + ',' + '\n' +'"incident": ' + data[i].incident + ',' + '\n' + '"police_grid": ' + data[i].police_grid +
-                ',' + '\n' + '"neighborhood_number": ' + data[i].neighborhood_number + ',' + '\n' + '"block": ' + data[i].block + '\n' + '}'+ ',' + '\n';
+                 res.status(404).send('ERROR: ');
+                return 0;
             }
-            
-            console.log(codeData);
-        }
-        result += '[' + '\n' + codeData + ']';    
-        res.status(200).type('json').send(result);
-    });
+            else
+            {
+                    
+                 let i;
+                 let date = '';
+                 let time = '';
+                 let date_time_split ='';
+                for(i = 0; i < data.length; i++)
+                {
+                    date_time_split = data[i].date_time.split('T');
+                    date = date_time_split[0];
+                    time = date_time_split[1];
+                    codeData +=  '{' +'"case_number": ' + data[i].case_number + ',' + '\n' + '"date": ' + date + ',' + '\n' + '"time": ' + time +
+                    ',' + '\n' + '"code": ' + data[i].code + ',' + '\n' +'"incident": ' + data[i].incident + ',' + '\n' + '"police_grid": ' + data[i].police_grid +
+                    ',' + '\n' + '"neighborhood_number": ' + data[i].neighborhood_number + ',' + '\n' + '"block": ' + data[i].block + '\n' + '}'+ ',' + '\n';
+                }
+                
+                console.log(codeData);
+            }
+            result += '[' + '\n' + codeData + ']';    
+            res.status(200).type('json').send(result);
+        });
+    }
+    else
+    {
+        
+    }
 });
 
 // REST API: PUT /new-incident
