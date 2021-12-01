@@ -222,7 +222,6 @@ app.get('/incidents', (req, res) => {
         let sql = "SELECT * FROM Incidents WHERE "
         let andString = "";
         
-
         let params = [];
         if(req.query.start_date)
         {
@@ -305,6 +304,11 @@ app.get('/incidents', (req, res) => {
         if(req.query.limit)
         {
             sql += "ORDER BY date_time DESC LIMIT ?";
+            params.push(req.query.limit);
+        }
+        if(!req.query.limit)
+        {
+            sql += "ORDER BY date_time DESC LIMIT 1000";
             params.push(req.query.limit);
         }
         
