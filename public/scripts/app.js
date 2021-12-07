@@ -51,7 +51,9 @@ function init() {
             
         }
     });
-
+    //create vue on-click button with address input.
+    //change app.map.center.lat and app.map.center.lng to new lat and lng of address
+    //change bounds
     map = L.map('leafletmap').setView([app.map.center.lat, app.map.center.lng], app.map.zoom);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
