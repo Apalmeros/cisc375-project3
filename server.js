@@ -312,7 +312,6 @@ app.get('/incidents', (req, res) => {
             params.push(req.query.limit);
         }
         
-        //console.log(sql);
 
         db.all(sql, params, (err,data) => {
             
@@ -342,14 +341,14 @@ app.get('/incidents', (req, res) => {
                     ',' + '\n' + '"neighborhood_number": ' + data[i].neighborhood_number + ',' + '\n' + '"block": ' + data[i].block + '\n' + '}'+ ',' + '\n';
                 }
                 
-                //console.log(codeData);
+                
             }
             result += '[' + '\n' + codeData + ']';    
             res.status(200).type('json').send(result);
             
         });
         
-        //console.log(params);
+        
     }
 });
 

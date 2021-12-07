@@ -38,7 +38,17 @@ function init() {
                     nw: {lat: 45.008206, lng: -93.217977},
                     se: {lat: 44.883658, lng: -92.993787}
                 }
-            }
+            },
+            /*
+            map_search: "",
+            map_type: "incident",
+            map_type_options: [
+                {value: "neighborhood_name", text: "Neighborhood"},
+                {value: "incident_type", text: "Incident"}
+            ],
+            search_results = [],
+            */
+            
         }
     });
 
@@ -77,3 +87,29 @@ function getJSON(url) {
         });
     });
 }
+
+function map_search(event)
+{
+    if(app.map_search !== "")
+    {
+        let request = {
+            url: crime_url,
+            dataType: "json",
+
+        };
+        $.ajax(request);
+    }
+    else
+    {
+        app.search_results = [];
+    }
+}
+
+function map_data(data)
+{
+    app.search_results = data[app.map_type + "s"].items;
+    console.log(data);
+}
+
+// convert address to latitude and longitude
+//create a function that updates lat/long when map is panned and zoomed
