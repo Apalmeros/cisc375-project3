@@ -39,6 +39,9 @@ function init() {
                     se: {lat: 44.883658, lng: -92.993787}
                 }
             },
+            //get request for url lat and long address
+            //https://nominatim.openstreetmap.org/search?q=University%20of%20St.%20Thomas&format=json&accept-language=en
+            // clamp lat an long so it does not leave st paul.
             /*
             map_search: "",
             map_type: "incident",
