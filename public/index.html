@@ -27,17 +27,38 @@
 </head>
 <body onload="init()">
     <!-- Main app -->
-    <div id="app">
-        <div id="leafletmap"></div> 
+    <div id="leafletmap"></div>
+
+    <div id="app"> 
+
+        
+        <label>Latitude</label><br>
+        <input v-model="map.center.lat"></input><br>
+
+        <label>Longitude</label><br>
+        <input v-model="map.center.lng"></input><br>
+        <button type="button" @click="nominationReverse"> Go </button><br>
+        
+        <label>Location Name</label>
+        <input v-model="map.center.address"></input><br>
+        <button type="button" v-on:click="nominationSearch"> GO </button>
 
     </div>
-    
+    <!--
     <div id="app2">
-        <input id="search"  type="text" v-model="map_search"></input>
-        <button type="button" @click="nominationSearch"> GO </button>
-        <input id="search1"  type="text" v-model="map_search"></input>
-        <button type="button" @click="nominationReverse">Reverse</button>
-    </div>
+        <label>Latitude</label><br>
+        <input v-model="latitude"></input><br>
+        <button type="button" @click="nominationSearch"> GO </button><br>
 
+        <label>Longitude</label><br>
+        <input v-model="longitude"></input><br>
+        <button type="button" @click="nominationReverse"> Go </button><br>
+
+        <label>Location Name</label>
+        <input v-model="address"></input><br>
+        <button type="button" v-on:click="nominationSearch"> GO </button>
+
+    </div>
+    -->
 </body>
 </html>

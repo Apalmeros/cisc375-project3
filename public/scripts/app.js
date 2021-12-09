@@ -34,7 +34,7 @@ function init() {
                 center: {
                     lat: 44.955139,
                     lng: -93.102222,
-                    address: ""
+                    address: "Minnesota State Capitol"
                 },
                 zoom: 12,
                 bounds: {
@@ -49,17 +49,20 @@ function init() {
         }
     });
     
+    /*
     app2 = new Vue({
         el: '#app2',
         data:{
             map_search: '',
-            lat: '',
-            lon: '',
+            latitude: '',
+            longitude: '',
+            loc_name: ''
             address: '',
             search_result: []
             
         }
     })
+    */
     
     //create vue on-click button with address input.
     //change app.map.center.lat and app.map.center.lng to new lat and lng of address
@@ -100,21 +103,50 @@ function getJSON(url) {
 }
 
 function nominationSearch(event){
-    if(app2.map_search !== '')
+    let request = {
+        url: "https:nominatim.openstreetmap.org/search?q=" + app.map.center.address + "&format=json&accept-language=en",
+        dataType: "json",
+        success: searchData
+    };
+    $.ajax(request);
+    function searchData(data)
     {
-        let request = {
-            url: "https:nominatim.openstreetmap.org/search?q=" + app2.map_search + "&format=json&accept-language=en",
-            dataType: "json",
-            success: mapData
-        };
-        $.ajax(request);
-    }
-    else
-    {
-        search_result = []
+        app.map.center.lat= data[0].lat;
+        app.map.center.lng = data[0].lon;
+        map.panTo(new L.LatLng(data[0].lat, data[0].lon));
+        console.log(data[0].lon);
     }
 }
-function nominationReverse(event){
+
+function nominationReverse(event)
+{
+    let request = {
+        url: "https:nominatim.openstreetmap.org/reverse?format=jsonv2&lat=" + app.map.center.lat + "&lon=" + app.map.center.lng,
+        dataType: "json",
+        success: searchCoord
+    };
+    $.ajax(request);
+    function searchCoord(data)
+    {
+        app.map.center.address = data.display_name.substr(0, data.display_name.indexOf(','));
+        map.panTo(new L.LatLng(app.map.center.lat, app.map.center.lng));
+    }
+};
+
+//this is an attempt at changing map when it is dragged.
+map.on('moveend', function() {
+    let center = map.getCenter();
+    console.log(center);
+})
+/*
+function searchData(data)
+{
+    app2.latitude = data[0].lat;
+    app2.longitude = data[0].lon;
+    map.panTo(new L.LatLng(data[0].lat, data[0].lon));
+}
+/*
+function nominationReverseLat(event){
     if(app2.map_search !== '')
     {
         let request = {
@@ -137,7 +169,7 @@ function mapData(data)
     map.panTo(new L.LatLng(data[0].lat, data[0].lon));
 }
 
-
+*/
 
 
 
