@@ -1,4 +1,7 @@
+
+
 let app;
+let app2;
 let map;
 let neighborhood_markers = 
 [
@@ -38,9 +41,26 @@ function init() {
                     nw: {lat: 45.008206, lng: -93.217977},
                     se: {lat: 44.883658, lng: -92.993787}
                 }
-            }
+            },
+            //get request for url lat and long address
+            //https://nominatim.openstreetmap.org/search?q=University%20of%20St.%20Thomas&format=json&accept-language=en
+            // clamp lat an long so it does not leave st paul.
+         
         }
     });
+    
+    app2 = new Vue({
+        el: '#app2',
+        data:{
+            map_search: '',
+            lat: '',
+            lon: '',
+            address: '',
+            search_result: []
+            
+        }
+    })
+    
     //create vue on-click button with address input.
     //change app.map.center.lat and app.map.center.lng to new lat and lng of address
     //change bounds
@@ -64,7 +84,6 @@ function init() {
         console.log('Error:', error);
     });
 }
-
 function getJSON(url) {
     return new Promise((resolve, reject) => {
         $.ajax({
@@ -79,3 +98,48 @@ function getJSON(url) {
         });
     });
 }
+
+function nominationSearch(event){
+    if(app2.map_search !== '')
+    {
+        let request = {
+            url: "https:nominatim.openstreetmap.org/search?q=" + app2.map_search + "&format=json&accept-language=en",
+            dataType: "json",
+            success: mapData
+        };
+        $.ajax(request);
+    }
+    else
+    {
+        search_result = []
+    }
+}
+function nominationReverse(event){
+    if(app2.map_search !== '')
+    {
+        let request = {
+            url: "https:nominatim.openstreetmap.org/reverse?q=" + app2.map_search + "&format=json&accept-language=en",
+            dataType: "json",
+            success: mapData
+        };
+        $.ajax(request);
+    }
+    else
+    {
+        search_result = []
+    }
+}
+
+function mapData(data)
+{
+    
+    console.log(data[0].lat, data[0].lon);
+    map.panTo(new L.LatLng(data[0].lat, data[0].lon));
+}
+
+
+
+
+
+// convert address to latitude and longitude
+//create a function that updates lat/long when map is panned and zoomed
