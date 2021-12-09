@@ -28,29 +28,16 @@
 <body onload="init()">
     <!-- Main app -->
     <div id="app">
-        <input  type="text" > </input>
-        <button type="button" > GO </button>
-        
-        
-        <div id="leafletmap"></div>
-        <div>
-            <!--<ol>
-                <li v-for="item in search_results">{{item.name}}</li>
-            </ol>-->
-            <table>
-                <thead>
-                    <tr>
-                        
-                        Neighborhood Name
-                    </tr>
-                    <tr>
-                        Incident Type
-                    </tr>
-                </thead>
-                
-            </table>
-        </div>
-        
+        <div id="leafletmap"></div> 
+
     </div>
+    
+    <div id="app2">
+        <input id="search"  type="text" v-model="map_search"></input>
+        <button type="button" @click="nominationSearch"> GO </button>
+        <input id="search1"  type="text" v-model="map_search"></input>
+        <button type="button" @click="nominationReverse">Reverse</button>
+    </div>
+
 </body>
 </html>
