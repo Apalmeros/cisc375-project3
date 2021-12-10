@@ -59,6 +59,12 @@ function init() {
         maxZoom: 18
     }).addTo(map);
     map.setMaxBounds([[44.883658, -93.217977], [45.008206, -92.993787]]);
+
+    //this is an attempt at changing map when it is dragged.
+    map.on('moveend', function() {
+        let center = map.getCenter();
+        console.log(center);
+    });
     
     let district_boundary = new L.geoJson();
     district_boundary.addTo(map);
@@ -118,11 +124,7 @@ function nominationReverse(event)
     }
 };
 
-//this is an attempt at changing map when it is dragged.
-map.on('moveend', function() {
-    let center = map.getCenter();
-    console.log(center);
-});
+
 
 
 
