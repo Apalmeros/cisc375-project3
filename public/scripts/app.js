@@ -95,8 +95,8 @@ function init() {
     var map_marker = L.icon({
         iconUrl: 'images/map-marker.png',
     
-        iconSize:     [(38), (95)], // size of the icon
-        iconAnchor:   [(22), (94)], // point of the icon which will correspond to marker's location
+        iconSize:     [(30), (50)], // size of the icon
+        iconAnchor:   [(15), (50)], // point of the icon which will correspond to marker's location
         popupAnchor:  [(-3), (76)] // point from which the popup should open relative to the iconAnchor
     }); 
     let i;
