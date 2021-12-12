@@ -77,6 +77,8 @@ function init() {
             app.map.center.address = data.display_name.substr(0, data.display_name.indexOf(','));
         }
     });
+
+    
     
     let district_boundary = new L.geoJson();
     district_boundary.addTo(map);
@@ -89,6 +91,20 @@ function init() {
     }).catch((error) => {
         console.log('Error:', error);
     });
+
+    var map_marker = L.icon({
+        iconUrl: 'images/map-marker.png',
+    
+        iconSize:     [(38), (95)], // size of the icon
+        iconAnchor:   [(22), (94)], // point of the icon which will correspond to marker's location
+        popupAnchor:  [(-3), (76)] // point from which the popup should open relative to the iconAnchor
+    }); 
+    let i;
+    for(i = 0; i < neighborhood_markers.length; i++)
+    {
+        L.marker(neighborhood_markers[i].location, {icon: map_marker}).addTo(map);
+    }
+    
 }
 function getJSON(url) {
     return new Promise((resolve, reject) => {
@@ -135,6 +151,20 @@ function nominationReverse(event)
         map.panTo(new L.LatLng(app.map.center.lat, app.map.center.lng));
     }
 };
+
+function updateTable(event)
+{
+    let request = {
+        url: "http://localhost:8000/incidents?neighborhood=" + app.map.center.address,
+        dataType: "json",
+        success: searchAddress
+    };
+    $.ajax(request);
+    function searchAddress(data)
+    {
+        app.map.center.address = data.display_name.substr(0, data.display_name.indexOf(','));
+    }
+}
 
 
 
