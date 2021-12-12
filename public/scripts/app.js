@@ -134,10 +134,7 @@ function nominationReverse(event)
 };
 
 //this is an attempt at changing map when it is dragged.
-map.on('moveend', function() {
-    let center = map.getCenter();
-    console.log(center);
-})
+
 /*
 function searchData(data)
 {
