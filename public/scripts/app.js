@@ -1,7 +1,6 @@
 
 
 let app;
-let app2;
 let map;
 let neighborhood_markers = 
 [
@@ -49,20 +48,6 @@ function init() {
         }
     });
     
-    /*
-    app2 = new Vue({
-        el: '#app2',
-        data:{
-            map_search: '',
-            latitude: '',
-            longitude: '',
-            loc_name: ''
-            address: '',
-            search_result: []
-            
-        }
-    })
-    */
     
     //create vue on-click button with address input.
     //change app.map.center.lat and app.map.center.lng to new lat and lng of address
@@ -74,6 +59,12 @@ function init() {
         maxZoom: 18
     }).addTo(map);
     map.setMaxBounds([[44.883658, -93.217977], [45.008206, -92.993787]]);
+
+    //this is an attempt at changing map when it is dragged.
+    map.on('moveend', function() {
+        let center = map.getCenter();
+        console.log(center);
+    });
     
     let district_boundary = new L.geoJson();
     district_boundary.addTo(map);
@@ -133,40 +124,8 @@ function nominationReverse(event)
     }
 };
 
-//this is an attempt at changing map when it is dragged.
 
-/*
-function searchData(data)
-{
-    app2.latitude = data[0].lat;
-    app2.longitude = data[0].lon;
-    map.panTo(new L.LatLng(data[0].lat, data[0].lon));
-}
-/*
-function nominationReverseLat(event){
-    if(app2.map_search !== '')
-    {
-        let request = {
-            url: "https:nominatim.openstreetmap.org/reverse?q=" + app2.map_search + "&format=json&accept-language=en",
-            dataType: "json",
-            success: mapData
-        };
-        $.ajax(request);
-    }
-    else
-    {
-        search_result = []
-    }
-}
 
-function mapData(data)
-{
-    
-    console.log(data[0].lat, data[0].lon);
-    map.panTo(new L.LatLng(data[0].lat, data[0].lon));
-}
-
-*/
 
 
 
