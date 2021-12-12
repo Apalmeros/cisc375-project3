@@ -63,7 +63,19 @@ function init() {
     //this is an attempt at changing map when it is dragged.
     map.on('moveend', function() {
         let center = map.getCenter();
-        console.log(center);
+        app.map.center.lat = center.lat;
+        app.map.center.lng = center.lng;
+
+        let request = {
+            url: "https:nominatim.openstreetmap.org/reverse?format=jsonv2&lat=" + app.map.center.lat + "&lon=" + app.map.center.lng,
+            dataType: "json",
+            success: moveCenter
+        };
+        $.ajax(request);
+        function moveCenter(data)
+        {
+            app.map.center.address = data.display_name.substr(0, data.display_name.indexOf(','));
+        }
     });
     
     let district_boundary = new L.geoJson();
