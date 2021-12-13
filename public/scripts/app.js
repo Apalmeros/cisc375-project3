@@ -28,6 +28,7 @@ function init() {
     let crime_url = 'http://localhost:8000';
 
     // do a neighborhood query
+    
     // do a codes query
 
     app = new Vue({
@@ -52,26 +53,19 @@ function init() {
         }
     });
     
-    table = new Vue({
-        el: '#table',
-        data:{
-            results: []
-        },
-        methods:{
-            updateTable: function () {
-                let request = {
-                    url: "http://localhost:8000/incidents?neighborhood=1&limit=10",
-                    dataType: "json",
-                    success: searchAddress
-                };
-                $.ajax(request);
-                function searchAddress(data)
-                {
-                    console.log(data);
-                }
-            }
-        }
+    let json_codes = getJSON(crime_url + "/codes");
+    
+
+    let json_neighborhoods = getJSON(crime_url + "/neighborhoods");
+    
+
+    Promise.all([json_codes, json_neighborhoods]).then((data) => {
+        console.log(data);
     });
+
+    
+    
+
     
     //create vue on-click button with address input.
     //change app.map.center.lat and app.map.center.lng to new lat and lng of address
