@@ -26,6 +26,8 @@
     <!-- End: Application -->
 </head>
 <body onload="init()">
+    <a href = "about-the-project.html"> About the Project </a>
+
     <!-- Main app -->
     <div id="leafletmap"></div>
 
@@ -42,6 +44,21 @@
         <label>Location Name</label>
         <input v-model="map.center.address"></input><br>
         <button type="button" v-on:click="nominationSearch"> GO </button>
+
+        <label>Neighborhood Name</label>
+        <input v-model="map.center.address"></input><br>
+        <button type="button" v-on:click="updateTable"> GO </button>
+        
+        <table>
+            <thead>
+                <tr>
+                    Neighborhood_Name
+                </tr>
+                <tr>
+                    Incident_Type
+                </tr>
+            </thead>
+        </table>
 
     </div>
     
