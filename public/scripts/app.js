@@ -5,23 +5,23 @@ let map;
 let table;
 let neighborhood_markers = 
 [
-    {location: [44.942068, -93.020521], marker: null},
-    {location: [44.977413, -93.025156], marker: null},
-    {location: [44.931244, -93.079578], marker: null},
-    {location: [44.956192, -93.060189], marker: null},
-    {location: [44.978883, -93.068163], marker: null},
-    {location: [44.975766, -93.113887], marker: null},
-    {location: [44.959639, -93.121271], marker: null},
-    {location: [44.947700, -93.128505], marker: null},
-    {location: [44.930276, -93.119911], marker: null},
-    {location: [44.982752, -93.147910], marker: null},
-    {location: [44.963631, -93.167548], marker: null},
-    {location: [44.973971, -93.197965], marker: null},
-    {location: [44.949043, -93.178261], marker: null},
-    {location: [44.934848, -93.176736], marker: null},
-    {location: [44.913106, -93.170779], marker: null},
-    {location: [44.937705, -93.136997], marker: null},
-    {location: [44.949203, -93.093739], marker: null}
+    {location: [44.942068, -93.020521], marker: "Southeast"},
+    {location: [44.977413, -93.025156], marker: "Greater East Side"},
+    {location: [44.931244, -93.079578], marker: "West Side"},
+    {location: [44.956192, -93.060189], marker: "Dayton's Bluff"},
+    {location: [44.978883, -93.068163], marker: "Payne - Phalen"},
+    {location: [44.975766, -93.113887], marker: "North End"},
+    {location: [44.959639, -93.121271], marker: "Frogtown"},
+    {location: [44.947700, -93.128505], marker: "Summit - University"},
+    {location: [44.930276, -93.119911], marker: "West Seventh - Fort Road"},
+    {location: [44.982752, -93.147910], marker: "Como Park"},
+    {location: [44.963631, -93.167548], marker: "Hamline - Midway"},
+    {location: [44.973971, -93.197965], marker: "Saint Anthony Park"},
+    {location: [44.949043, -93.178261], marker: "Union Park"},
+    {location: [44.934848, -93.176736], marker: "Macalester - Groveland"},
+    {location: [44.913106, -93.170779], marker: "Highland"},
+    {location: [44.937705, -93.136997], marker: "Summit Hill"},
+    {location: [44.949203, -93.093739], marker: "Downtown"}
 ];
 
 function init() {
@@ -52,7 +52,21 @@ function init() {
     table = new Vue({
         el: '#table',
         data:{
-                
+            results: []
+        },
+        methods:{
+            updateTable: function () {
+                let request = {
+                    url: "http://localhost:8000/incidents?neighborhood=1&limit=10",
+                    dataType: "json",
+                    success: searchAddress
+                };
+                $.ajax(request);
+                function searchAddress(data)
+                {
+                    console.log(data);
+                }
+            }
         }
     });
     
@@ -104,12 +118,12 @@ function init() {
     
         iconSize:     [(30), (50)], // size of the icon
         iconAnchor:   [(15), (50)], // point of the icon which will correspond to marker's location
-        popupAnchor:  [(-3), (76)] // point from which the popup should open relative to the iconAnchor
+        popupAnchor:  [(0), (0)] // point from which the popup should open relative to the iconAnchor
     }); 
     let i;
     for(i = 0; i < neighborhood_markers.length; i++)
     {
-        L.marker(neighborhood_markers[i].location, {icon: map_marker}).addTo(map);
+        L.marker(neighborhood_markers[i].location, {icon: map_marker}).addTo(map).bindPopup(neighborhood_markers[i].marker);
     }
     
 }
@@ -140,7 +154,6 @@ function nominationSearch(event){
         app.map.center.lat= data[0].lat;
         app.map.center.lng = data[0].lon;
         map.panTo(new L.LatLng(data[0].lat, data[0].lon));
-        console.log(data[0].lon);
     }
 }
 
@@ -158,20 +171,6 @@ function nominationReverse(event)
         map.panTo(new L.LatLng(app.map.center.lat, app.map.center.lng));
     }
 };
-
-function updateTable(event)
-{
-    let request = {
-        url: "http://localhost:8000/incidents?neighborhood=" + app.map.center.address,
-        dataType: "json",
-        success: searchAddress
-    };
-    $.ajax(request);
-    function searchAddress(data)
-    {
-        app.map.center.address = data.display_name.substr(0, data.display_name.indexOf(','));
-    }
-}
 
 
 

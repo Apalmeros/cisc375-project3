@@ -45,22 +45,24 @@
         <input v-model="map.center.address"></input><br>
         <button type="button" v-on:click="nominationSearch"> GO </button>
 
-        <label>Neighborhood Name</label>
-        <input v-model="map.center.address"></input><br>
-        <button type="button" v-on:click="updateTable"> GO </button>
-        
-        <table>
-            <thead>
-                <tr>
-                    Neighborhood_Name
-                </tr>
-                <tr>
-                    Incident_Type
-                </tr>
-            </thead>
-        </table>
 
     </div>
-    
+    <!--
+    <div id="table">
+        <thead>
+            <tr>
+                <th>Incident Type</th>
+                <th>Conway/Battlecreek</th>
+                <th>West Side</th>
+                <th>Dayton's Bluff</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="result in results">
+                <td>{{ result.incident }}</td>
+            </tr>
+        </tbody>
+    </div>
+    -->
 </body>
 </html>
