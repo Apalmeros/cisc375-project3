@@ -2,6 +2,7 @@
 
 let app;
 let map;
+let table;
 let neighborhood_markers = 
 [
     {location: [44.942068, -93.020521], marker: null},
@@ -48,6 +49,12 @@ function init() {
         }
     });
     
+    table = new Vue({
+        el: '#table',
+        data:{
+                
+        }
+    });
     
     //create vue on-click button with address input.
     //change app.map.center.lat and app.map.center.lng to new lat and lng of address
