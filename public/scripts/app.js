@@ -27,6 +27,10 @@ let neighborhood_markers =
 function init() {
     let crime_url = 'http://localhost:8000';
 
+    // do a neighborhood query
+    
+    // do a codes query
+
     app = new Vue({
         el: '#app',
         data: {
@@ -41,34 +45,27 @@ function init() {
                     nw: {lat: 45.008206, lng: -93.217977},
                     se: {lat: 44.883658, lng: -92.993787}
                 }
+                // add fields for our table
             },
             //get request for url lat and long address
-            //https://nominatim.openstreetmap.org/search?q=University%20of%20St.%20Thomas&format=json&accept-language=en
-            // clamp lat an long so it does not leave st paul.
+            //https://nominatim.openstreetmap.org/search?q=University%20of%20St.%20Thomas&format=json&accept-language=en           
          
         }
     });
     
-    table = new Vue({
-        el: '#table',
-        data:{
-            results: []
-        },
-        methods:{
-            updateTable: function () {
-                let request = {
-                    url: "http://localhost:8000/incidents?neighborhood=1&limit=10",
-                    dataType: "json",
-                    success: searchAddress
-                };
-                $.ajax(request);
-                function searchAddress(data)
-                {
-                    console.log(data);
-                }
-            }
-        }
+    let json_codes = getJSON(crime_url + "/codes");
+    
+
+    let json_neighborhoods = getJSON(crime_url + "/neighborhoods");
+    
+
+    Promise.all([json_codes, json_neighborhoods]).then((data) => {
+        console.log(data);
     });
+
+    
+    
+
     
     //create vue on-click button with address input.
     //change app.map.center.lat and app.map.center.lng to new lat and lng of address
@@ -91,12 +88,14 @@ function init() {
             url: "https:nominatim.openstreetmap.org/reverse?format=jsonv2&lat=" + app.map.center.lat + "&lon=" + app.map.center.lng,
             dataType: "json",
             success: moveCenter
+            // use getJson for url's
         };
         $.ajax(request);
         function moveCenter(data)
         {
             app.map.center.address = data.display_name.substr(0, data.display_name.indexOf(','));
         }
+        // incidents query
     });
 
     
