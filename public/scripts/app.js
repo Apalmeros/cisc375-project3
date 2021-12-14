@@ -47,6 +47,19 @@ function init() {
                 }
                 // add fields for our table
             },
+            table: {
+                items: []
+                /*
+                case_number: [],
+                date: [],
+                time: [],
+                code: [],
+                incident: [],
+                police_grid: [],
+                neighborhood_number: [],
+                block: []
+                */
+            }
             //get request for url lat and long address
             //https://nominatim.openstreetmap.org/search?q=University%20of%20St.%20Thomas&format=json&accept-language=en           
          
@@ -54,13 +67,23 @@ function init() {
     });
     
     let json_codes = getJSON(crime_url + "/codes");
-    
-
     let json_neighborhoods = getJSON(crime_url + "/neighborhoods");
-    
-
-    Promise.all([json_codes, json_neighborhoods]).then((data) => {
-        console.log(data);
+    let json_incidents = getJSON(crime_url + "/incidents?limit=5");
+    Promise.all([json_incidents]).then((data) => {
+        //console.log(data[0][0]);
+        for(let i = 0; i<data[0].length; i++)
+        {
+            app.table.items.push(data[0][i]);
+            /*
+            app.table.case_number = data[i].case_number;
+            app.table.date = data.date;
+            app.table.time = data.time;
+            app.table.incident = data.incident;
+            app.table.police_grid = data.police_grid;
+            app.table.neighborhood_number = data.neighborhood_number;
+            app.table.block = data.block;
+            */
+        }
     });
 
     

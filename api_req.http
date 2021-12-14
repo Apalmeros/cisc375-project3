@@ -26,4 +26,4 @@ Content-Type: application/json
 get http://localhost:8000/codes?code=110,120
 
 ###
-get http://localhost:8000/incidents?neighborhood=1&limit=10
+get http://localhost:8000/incidents?code=110&limit=5

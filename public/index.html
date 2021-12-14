@@ -45,24 +45,29 @@
         <input v-model="map.center.address"></input><br>
         <button type="button" v-on:click="nominationSearch"> GO </button>
 
-
+        <table>
+            <thead>
+                <tr>
+                    <th>Case_Number</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Code</th>
+                    <th>Incident</th>
+                    <th>Police_Grid</th>
+                    <th>Neighborhood_Number</th>
+                    <th>Block</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+                <tr v-for="item in table.items">
+                    <td>{{ item.case_number }}</td>
+                    <td>{{ item.date}}</td>
+                </tr>
+            </tbody>
+            
+        </table>
+    
     </div>
-    <!--
-    <div id="table">
-        <thead>
-            <tr>
-                <th>Incident Type</th>
-                <th>Conway/Battlecreek</th>
-                <th>West Side</th>
-                <th>Dayton's Bluff</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="result in results">
-                <td>{{ result.incident }}</td>
-            </tr>
-        </tbody>
-    </div>
-    -->
 </body>
 </html>

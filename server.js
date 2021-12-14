@@ -184,10 +184,9 @@ app.get('/neighborhoods', (req, res) => {
 app.get('/incidents', (req, res) => {
     let url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
     //make a query to the data base and then send that data
-    
-    if(!req.query)
+    if(Object.keys(req.query).length === 0)
     {
-        db.all('SELECT case_number, date_time, code, incident, police_grid, neighborhood_number, block  FROM Incidents ORDER BY date_time', (err, data) => {
+        db.all('SELECT case_number, date_time, code, incident, police_grid, neighborhood_number, block FROM Incidents ORDER BY date_time DESC LIMIT 1000', (err, data) => {
 
             let result = [];
             if(data.length == 0)
@@ -198,7 +197,6 @@ app.get('/incidents', (req, res) => {
             else
             {
                  
-
                  let i;
                  let date = '';
                  let time = '';
@@ -208,7 +206,7 @@ app.get('/incidents', (req, res) => {
                     date_time_split = data[i].date_time.split('T');
                     date = date_time_split[0];
                     time = date_time_split[1];
-                    let codeData =  {case_number: data[i].case_number , date: data[i].date , time: data[i].time , code: data[i].code , incident: data[i].incident , police_grid: data[i].police_grid , neighborhood_number: data[i].neighborhood_number, block: data[i].block }
+                    let codeData =  {case_number: data[i].case_number , date: date , time: time , code: data[i].code , incident: data[i].incident , police_grid: data[i].police_grid , neighborhood_number: data[i].neighborhood_number, block: data[i].block };
                     result.push(codeData);
                 }
                 
@@ -299,9 +297,28 @@ app.get('/incidents', (req, res) => {
             }
             sql += "neighborhood_number IN("+question_mark_string+") AND ";
         }
-
         sql = sql.substring(0,sql.length-5);
-
+        if(req.query.limit && !req.query.start_date && !req.query.end_date && !req.query.code && !req.query.neighborhood)
+        {
+            sql = "SELECT * FROM Incidents ORDER BY date_time DESC LIMIT ?";
+            params.push(req.query.limit);
+        }
+        else
+        {
+            if(req.query.limit)
+            {
+                sql += "ORDER BY date_time DESC LIMIT ?";
+                params.push(req.query.limit);
+            }
+        
+            if(!req.query.limit)
+            {
+                sql += "ORDER BY date_time DESC LIMIT 1000";
+                params.push(req.query.limit);
+            }
+        
+        }
+        /*
         if(req.query.limit)
         {
             sql += "ORDER BY date_time DESC LIMIT ?";
@@ -312,22 +329,19 @@ app.get('/incidents', (req, res) => {
             sql += "ORDER BY date_time DESC LIMIT 1000";
             params.push(req.query.limit);
         }
-        
-
+        */
+        //console.log(sql);
         db.all(sql, params, (err,data) => {
             
-            console.log(data);
-            let codeData ='';
-            let result = '';
+            let result = [];
             if(data.length == 0)
             {
-                 res.status(404).send('ERROR: ');
+                res.status(404).send('ERROR: ');
                 return 0;
             }
             else
             {
                  
-
                  let i;
                  let date = '';
                  let time = '';
@@ -337,14 +351,12 @@ app.get('/incidents', (req, res) => {
                     date_time_split = data[i].date_time.split('T');
                     date = date_time_split[0];
                     time = date_time_split[1];
-                    codeData +=  '{' +'"case_number": ' + data[i].case_number + ',' + '\n' + '"date": ' + date + ',' + '\n' + '"time": ' + time +
-                    ',' + '\n' + '"code": ' + data[i].code + ',' + '\n' +'"incident": ' + data[i].incident + ',' + '\n' + '"police_grid": ' + data[i].police_grid +
-                    ',' + '\n' + '"neighborhood_number": ' + data[i].neighborhood_number + ',' + '\n' + '"block": ' + data[i].block + '\n' + '}'+ ',' + '\n';
+                    let codeData = {case_number: data[i].case_number , date: date , time: time , code: data[i].code , incident: data[i].incident , police_grid: data[i].police_grid , neighborhood_number: data[i].neighborhood_number, block: data[i].block };
+                    result.push(codeData);
                 }
                 
                 
-            }
-            result += '[' + '\n' + codeData + ']';    
+            }   
             res.status(200).type('json').send(result);
             
         });
