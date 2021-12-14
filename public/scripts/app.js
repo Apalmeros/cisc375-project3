@@ -44,8 +44,7 @@ function init() {
                 // add fields for our table
             },
             table: {
-                items: []
-                
+                items: []    
             }
             //get request for url lat and long address
             //https://nominatim.openstreetmap.org/search?q=University%20of%20St.%20Thomas&format=json&accept-language=en           
@@ -56,6 +55,8 @@ function init() {
     let json_codes = getJSON(crime_url + "/codes");
     let json_neighborhoods = getJSON(crime_url + "/neighborhoods");
     let json_incidents = getJSON(crime_url + "/incidents?limit=5");
+    //let coords = getJSON("https:nominatim.openstreetmap.org/search?q=" "&format=json&accept-language=en")
+    /*
     Promise.all([json_incidents]).then((data) => {
         
         for(let i = 0; i<data[0].length; i++)
@@ -64,11 +65,7 @@ function init() {
             
         }
     });
-
-    
-    
-
-    
+    */
     //create vue on-click button with address input.
     //change app.map.center.lat and app.map.center.lng to new lat and lng of address
     //change bounds
@@ -80,7 +77,25 @@ function init() {
     }).addTo(map);
     map.setMaxBounds([[44.883658, -93.217977], [45.008206, -92.993787]]);
 
-    //this is an attempt at changing map when it is dragged.
+   /* this was an attempt to make a dynamic table
+    map.on('moveend', function() {
+        let bounds = map.getBounds();
+        //console.log(bounds);
+        Promise.all([json_incidents]).then((data) => {
+            for(let i = 0; i<data[0].length; i++)
+            {
+                //app.table.items.push(data[0][i]);
+                let coords = getJSON("https:nominatim.openstreetmap.org/search?q=" + data[0][i].block + "&format=json&accept-language=en");
+                coords.then((values) => {
+                    if(bounds.contains([values[0].lat, values[0].lon]))
+                    {
+                        app.table.items.push(data[0][i]);
+                    }
+                });
+            }
+        });
+    });
+    */
     map.on('moveend', function() {
         let center = map.getCenter();
         app.map.center.lat = center.lat;
@@ -126,6 +141,101 @@ function init() {
     {
         L.marker(neighborhood_markers[i].location, {icon: map_marker}).addTo(map).bindPopup(neighborhood_markers[i].marker);
     }
+
+    let neighborhood_count = getJSON(crime_url + "/incidents");
+    neighborhood_count.then((data) => {
+        console.log(data);
+        let id_1 = 0;
+        let id_2 = 0;
+        let id_3 = 0;
+        let id_4 = 0;
+        let id_5 = 0;
+        let id_6 = 0;
+        let id_7 = 0;
+        let id_8 = 0;
+        let id_9 = 0;
+        let id_10 = 0;
+        let id_11 = 0;
+        let id_12 = 0;
+        let id_13 = 0;
+        let id_14 = 0;
+        let id_15 = 0;
+        let id_16 = 0;
+        let id_17 = 0;
+
+        for(let i=0; i<data.length; i++)
+        {
+            if(data[i].neighborhood_number === 1)
+            {
+                id_1 ++;
+            }
+            if(data[i].neighborhood_number === 2)
+            {
+                id_2 ++;
+            }
+            if(data[i].neighborhood_number === 3)
+            {
+                id_3 ++;
+            }
+            if(data[i].neighborhood_number === 4)
+            {
+                id_4 ++;
+            }
+            if(data[i].neighborhood_number === 5)
+            {
+                id_5 ++;
+            }
+            if(data[i].neighborhood_number === 6)
+            {
+                id_6 ++;
+            }
+            if(data[i].neighborhood_number === 7)
+            {
+                id_7 ++;
+            }
+            if(data[i].neighborhood_number === 8)
+            {
+                id_8 ++;
+            }
+            if(data[i].neighborhood_number === 9)
+            {
+                id_9 ++;
+            }
+            if(data[i].neighborhood_number === 10)
+            {
+                id_10 ++;
+            }
+            if(data[i].neighborhood_number === 11)
+            {
+                id_11 ++;
+            }
+            if(data[i].neighborhood_number === 12)
+            {
+                id_12 ++;
+            }
+            if(data[i].neighborhood_number === 13)
+            {
+                id_13 ++;
+            }
+            if(data[i].neighborhood_number === 14)
+            {
+                id_14 ++;
+            }
+            if(data[i].neighborhood_number === 15)
+            {
+                id_15 ++;
+            }
+            if(data[i].neighborhood_number === 16)
+            {
+                id_16 ++;
+            }
+            if(data[i].neighborhood_number === 17)
+            {
+                id_17 ++;
+            }
+
+        }
+    });
     
 }
 function getJSON(url) {
