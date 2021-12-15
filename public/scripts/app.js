@@ -163,18 +163,6 @@ function init() {
             }
         });
         //console.log(temp);
-        for(let i=0; i<app.table.codes_incident_types.length; i++)
-        {
-           for(let j=0; j<temp.length; j++)
-           {
-                if(app.table.codes_incident_types[i].code == temp[j].code)
-                {
-                    temp[j].code = app.table.codes_incident_types[i].type;
-                }
-           }   
-        }
-        console.log(app.table.codes_incident_types);
-        console.log(temp);
         app.table.items = temp;
     });
     
