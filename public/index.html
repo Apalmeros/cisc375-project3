@@ -145,8 +145,9 @@
                 </tr>
             </thead>
             
-            <tbody>
-                <tr v-for="item in table.items" id="test">
+            <tbody id="tobody1">
+                <!--:class="getTableClass(item.code)"-->
+                <tr v-for="(item, index) in table.items" id="test" :class="getTableClass(item.code)">
                     <td>{{ item.case_number }}</td>
                     <td>{{ item.date }}</td>
                     <td>{{ item.time}}</td>
@@ -155,7 +156,7 @@
                     <td>{{ item.police_grid}}</td>
                     <td>{{ item.neighborhood_number}}</td>
                     <td>{{ item.block}}</td>
-                    <td><label for="test"><button type="button"  id="0">GO</button></label></td>
+                    <td><label for="test"><button type="button"  :id="index" @click="addMarker">GO</button></label></td>
                 </tr>
                 <label for=""></label>
             </tbody>

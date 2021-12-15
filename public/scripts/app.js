@@ -67,6 +67,46 @@ function init() {
                 {
 
                 }
+            },
+            getTableClass(item)
+            {
+                if(item <= 374 && item >= 300)
+                {
+                    return "redRow";
+                }
+                if(item == 600)
+                {
+                    return "yellowRow"
+                }
+                else{
+                    return "blueRow";
+                }
+                
+
+            },
+            addMarker(event)
+            {
+                let i;
+                let value =  event.target.id;
+                console.log(value);
+                let num = parseInt(value);
+                console.log(num);
+                for(i = 0; i < app.table.items.length; i++)
+                {
+                    if(i == num)
+                    {
+                        console.log(app.table.items[i].block);
+                        let url = getJSON("https:nominatim.openstreetmap.org/search?q=" + app.table.items[i].block + "&format=json&accept-language=en");
+                        url.then((data) => {
+                            let latitude = data[0].lat;
+                            let longitude = data[0].lon;
+                            map.panTo(new L.LatLng(latitude, longitude));
+                            L.marker([latitude, longitude], {icon: incident_marker}).addTo(map);
+
+                        });
+                    }
+
+                }
             }
         }
     });
@@ -85,6 +125,8 @@ function init() {
             app.table.neighborhood_names.push(data[1][i]);
         }
     });
+
+    
     //create vue on-click button with address input.
     //change app.map.center.lat and app.map.center.lng to new lat and lng of address
     //change bounds
@@ -361,12 +403,7 @@ function init() {
         L.marker(neighborhood_markers[16].location, {icon: map_marker}).addTo(map).bindPopup(marker_string_17);
     });
 
-    let addMarker = getJSON(crime_url);
-    addMarker.then((data) => {
-        let incident_marker = [];
-        // get the block and send it to nomination reverse to get lat long and push those to incident marker location
-        L.marker(incident_marker[0].location, {icon: incident_marker}).addTo(map);
-    });
+    
 }
 function getJSON(url) {
     return new Promise((resolve, reject) => {
