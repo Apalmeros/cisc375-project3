@@ -6,3 +6,12 @@
     width: 800px;  /* feel free to change this! */
     height: 600px; /* feel free to change this! */
 }
+table{
+    width: 100%;
+    border: solid 1rem rgb(5,15,15);
+    border-radius: 10px;
+}
+th,td,tr{
+    border: solid 0.5rem rgb(5,15,15);
+    border-radius: 10px;
+}
