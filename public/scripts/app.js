@@ -135,12 +135,7 @@ function init() {
         iconSize:     [(30), (50)], // size of the icon
         iconAnchor:   [(15), (50)], // point of the icon which will correspond to marker's location
         popupAnchor:  [(0), (0)] // point from which the popup should open relative to the iconAnchor
-    }); 
-    let i;
-    for(i = 0; i < neighborhood_markers.length; i++)
-    {
-        L.marker(neighborhood_markers[i].location, {icon: map_marker}).addTo(map).bindPopup(neighborhood_markers[i].marker);
-    }
+    });
 
     let neighborhood_count = getJSON(crime_url + "/incidents");
     neighborhood_count.then((data) => {
@@ -167,76 +162,110 @@ function init() {
         {
             if(data[i].neighborhood_number === 1)
             {
-                id_1 ++;
+                id_1++;
             }
             if(data[i].neighborhood_number === 2)
             {
-                id_2 ++;
+                id_2++;
             }
             if(data[i].neighborhood_number === 3)
             {
-                id_3 ++;
+                id_3++;
             }
             if(data[i].neighborhood_number === 4)
             {
-                id_4 ++;
+                id_4++;
             }
             if(data[i].neighborhood_number === 5)
             {
-                id_5 ++;
+                id_5++;
             }
             if(data[i].neighborhood_number === 6)
             {
-                id_6 ++;
+                id_6++;
             }
             if(data[i].neighborhood_number === 7)
             {
-                id_7 ++;
+                id_7++;
             }
             if(data[i].neighborhood_number === 8)
             {
-                id_8 ++;
+                id_8++;
             }
             if(data[i].neighborhood_number === 9)
             {
-                id_9 ++;
+                id_9++;
             }
             if(data[i].neighborhood_number === 10)
             {
-                id_10 ++;
+                id_10++;
             }
             if(data[i].neighborhood_number === 11)
             {
-                id_11 ++;
+                id_11++;
             }
             if(data[i].neighborhood_number === 12)
             {
-                id_12 ++;
+                id_12++;
             }
             if(data[i].neighborhood_number === 13)
             {
-                id_13 ++;
+                id_13++;
             }
             if(data[i].neighborhood_number === 14)
             {
-                id_14 ++;
+                id_14++;
             }
             if(data[i].neighborhood_number === 15)
             {
-                id_15 ++;
+                id_15++;
             }
             if(data[i].neighborhood_number === 16)
             {
-                id_16 ++;
+                id_16++;
             }
             if(data[i].neighborhood_number === 17)
             {
-                id_17 ++;
+                id_17++;
             }
-
         }
+
+        marker_string_1 = neighborhood_markers[0].marker + ', Crimes: ' + id_1;
+        marker_string_2 = neighborhood_markers[1].marker + ', Crimes: ' + id_2;
+        marker_string_3 = neighborhood_markers[2].marker + ', Crimes: ' + id_3
+        marker_string_4 = neighborhood_markers[3].marker + ', Crimes: ' + id_4;
+        marker_string_5 = neighborhood_markers[4].marker + ', Crimes: ' + id_5;
+        marker_string_6 = neighborhood_markers[5].marker + ', Crimes: ' + id_6;
+        marker_string_7 = neighborhood_markers[6].marker + ', Crimes: ' + id_7;
+        marker_string_8 = neighborhood_markers[7].marker + ', Crimes: ' + id_8;
+        marker_string_9 = neighborhood_markers[8].marker + ', Crimes: ' + id_9;
+        marker_string_10 = neighborhood_markers[9].marker + ', Crimes: ' + id_10;
+        marker_string_11 = neighborhood_markers[10].marker + ', Crimes: ' + id_11;
+        marker_string_12 = neighborhood_markers[11].marker + ', Crimes: ' + id_12;
+        marker_string_13 = neighborhood_markers[12].marker + ', Crimes: ' + id_13;
+        marker_string_14 = neighborhood_markers[13].marker + ', Crimes: ' + id_14;
+        marker_string_15 = neighborhood_markers[14].marker + ', Crimes: ' + id_15;
+        marker_string_16 = neighborhood_markers[15].marker + ', Crimes: ' + id_16;
+        marker_string_17 = neighborhood_markers[16].marker + ', Crimes: ' + id_17;
+
+        L.marker(neighborhood_markers[0].location, {icon: map_marker}).addTo(map).bindPopup(marker_string_1);
+        L.marker(neighborhood_markers[1].location, {icon: map_marker}).addTo(map).bindPopup(marker_string_2);
+        L.marker(neighborhood_markers[2].location, {icon: map_marker}).addTo(map).bindPopup(marker_string_3);
+        L.marker(neighborhood_markers[3].location, {icon: map_marker}).addTo(map).bindPopup(marker_string_4);
+        L.marker(neighborhood_markers[4].location, {icon: map_marker}).addTo(map).bindPopup(marker_string_5);
+        L.marker(neighborhood_markers[5].location, {icon: map_marker}).addTo(map).bindPopup(marker_string_6);
+        L.marker(neighborhood_markers[6].location, {icon: map_marker}).addTo(map).bindPopup(marker_string_7);
+        L.marker(neighborhood_markers[7].location, {icon: map_marker}).addTo(map).bindPopup(marker_string_8);
+        L.marker(neighborhood_markers[8].location, {icon: map_marker}).addTo(map).bindPopup(marker_string_9);
+        L.marker(neighborhood_markers[9].location, {icon: map_marker}).addTo(map).bindPopup(marker_string_10);
+        L.marker(neighborhood_markers[10].location, {icon: map_marker}).addTo(map).bindPopup(marker_string_11);
+        L.marker(neighborhood_markers[11].location, {icon: map_marker}).addTo(map).bindPopup(marker_string_12);
+        L.marker(neighborhood_markers[12].location, {icon: map_marker}).addTo(map).bindPopup(marker_string_13);
+        L.marker(neighborhood_markers[13].location, {icon: map_marker}).addTo(map).bindPopup(marker_string_14);
+        L.marker(neighborhood_markers[14].location, {icon: map_marker}).addTo(map).bindPopup(marker_string_15);
+        L.marker(neighborhood_markers[15].location, {icon: map_marker}).addTo(map).bindPopup(marker_string_16);
+        L.marker(neighborhood_markers[16].location, {icon: map_marker}).addTo(map).bindPopup(marker_string_17);
     });
-    
 }
 function getJSON(url) {
     return new Promise((resolve, reject) => {
