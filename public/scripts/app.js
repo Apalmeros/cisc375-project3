@@ -70,13 +70,33 @@ function init() {
             },
             getTableClass(item)
             {
-                if(item <= 374 && item >= 300)
+                if(item <= 453 && item >= 400)
                 {
                     return "redRow";
                 }
-                if(item == 600)
+                if(item <= 982 && item >= 900)
+                {
+                    return "redRow";
+                }
+                if(item <= 220 && item >= 210)
+                {
+                    return "redRow";
+                }
+                if(item <= 863 && item >= 810)
+                {
+                    return "redRow";
+                }
+                if(item <= 566 && item >= 500)
                 {
                     return "yellowRow"
+                }
+                if(item <= 613 && item >= 600)
+                {
+                    return "yellowRow";
+                }
+                if(item <= 722 && item >= 621)
+                {
+                    return "yellowRow";
                 }
                 else{
                     return "blueRow";
