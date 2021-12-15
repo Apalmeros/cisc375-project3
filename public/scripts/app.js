@@ -69,7 +69,6 @@ function init() {
             app.table.neighborhood_names.push(data[1][i]);
         }
     });
-    
     //create vue on-click button with address input.
     //change app.map.center.lat and app.map.center.lng to new lat and lng of address
     //change bounds
@@ -214,7 +213,7 @@ function init() {
 
     let neighborhood_count = getJSON(crime_url + "/incidents");
     neighborhood_count.then((data) => {
-        console.log(data);
+        //console.log(data);
         let id_1 = 0;
         let id_2 = 0;
         let id_3 = 0;
