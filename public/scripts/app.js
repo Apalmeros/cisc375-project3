@@ -44,7 +44,10 @@ function init() {
                 // add fields for our table
             },
             table: {
-                items: []    
+                items: [],
+                codes_incident_types: [],
+                neighborhood_names: []
+
             }
             //get request for url lat and long address
             //https://nominatim.openstreetmap.org/search?q=University%20of%20St.%20Thomas&format=json&accept-language=en           
@@ -54,18 +57,19 @@ function init() {
     
     let json_codes = getJSON(crime_url + "/codes");
     let json_neighborhoods = getJSON(crime_url + "/neighborhoods");
-    let json_incidents = getJSON(crime_url + "/incidents?limit=5");
-    //let coords = getJSON("https:nominatim.openstreetmap.org/search?q=" "&format=json&accept-language=en")
-    /*
-    Promise.all([json_incidents]).then((data) => {
-        
-        for(let i = 0; i<data[0].length; i++)
+    let json_incidents = getJSON(crime_url + "/incidents?limit=100");
+    
+    Promise.all([json_codes, json_neighborhoods]).then((data) => {
+        for(let i=0; i<data[0].length; i++)
         {
-            app.table.items.push(data[0][i]);
-            
+            app.table.codes_incident_types.push(data[0][i]);
+        }
+        for(let i=0; i<data[1].length; i++)
+        {
+            app.table.neighborhood_names.push(data[1][i]);
         }
     });
-    */
+    
     //create vue on-click button with address input.
     //change app.map.center.lat and app.map.center.lng to new lat and lng of address
     //change bounds
@@ -77,25 +81,91 @@ function init() {
     }).addTo(map);
     map.setMaxBounds([[44.883658, -93.217977], [45.008206, -92.993787]]);
 
-   /* this was an attempt to make a dynamic table
+   //this was an attempt to make a dynamic table
     map.on('moveend', function() {
+        app.table.items = [];
+        let temp = [];
         let bounds = map.getBounds();
-        //console.log(bounds);
-        Promise.all([json_incidents]).then((data) => {
-            for(let i = 0; i<data[0].length; i++)
+        json_incidents.then((data) =>{
+            //console.log(data);
+
+            for(let i=0; i<data.length; i++)
             {
-                //app.table.items.push(data[0][i]);
-                let coords = getJSON("https:nominatim.openstreetmap.org/search?q=" + data[0][i].block + "&format=json&accept-language=en");
-                coords.then((values) => {
-                    if(bounds.contains([values[0].lat, values[0].lon]))
-                    {
-                        app.table.items.push(data[0][i]);
-                    }
-                });
+                if(bounds.contains(neighborhood_markers[0].location) && data[i].neighborhood_number == 1)
+                {
+                    temp.push(data[i]);
+                }
+                if(bounds.contains(neighborhood_markers[1].location) && data[i].neighborhood_number == 2)
+                {
+                    temp.push(data[i]);
+                }
+                if(bounds.contains(neighborhood_markers[2].location) && data[i].neighborhood_number == 3)
+                {
+                    temp.push(data[i]);
+                }
+                if(bounds.contains(neighborhood_markers[3].location) && data[i].neighborhood_number == 4)
+                {
+                    temp.push(data[i]);
+                }
+                if(bounds.contains(neighborhood_markers[4].location) && data[i].neighborhood_number == 5)
+                {
+                    temp.push(data[i]);
+                }
+                if(bounds.contains(neighborhood_markers[5].location) && data[i].neighborhood_number == 6)
+                {
+                    temp.push(data[i]);
+                }
+                if(bounds.contains(neighborhood_markers[6].location) && data[i].neighborhood_number == 7)
+                {
+                    temp.push(data[i]);
+                }
+                if(bounds.contains(neighborhood_markers[7].location) && data[i].neighborhood_number == 8)
+                {
+                    temp.push(data[i]);
+                }
+                if(bounds.contains(neighborhood_markers[8].location) && data[i].neighborhood_number == 9)
+                {
+                    temp.push(data[i]);
+                }
+                if(bounds.contains(neighborhood_markers[9].location) && data[i].neighborhood_number == 10)
+                {
+                    temp.push(data[i]);
+                }
+                if(bounds.contains(neighborhood_markers[10].location) && data[i].neighborhood_number == 11)
+                {
+                    temp.push(data[i]);
+                }
+                if(bounds.contains(neighborhood_markers[11].location) && data[i].neighborhood_number == 12)
+                {
+                    temp.push(data[i]);
+                }
+                if(bounds.contains(neighborhood_markers[12].location) && data[i].neighborhood_number == 13)
+                {
+                    temp.push(data[i]);
+                }
+                if(bounds.contains(neighborhood_markers[13].location) && data[i].neighborhood_number == 14)
+                {
+                    temp.push(data[i]);
+                }
+                if(bounds.contains(neighborhood_markers[14].location) && data[i].neighborhood_number == 15)
+                {
+                    temp.push(data[i]);
+                }
+                if(bounds.contains(neighborhood_markers[15].location) && data[i].neighborhood_number == 16)
+                {
+                    temp.push(data[i]);
+                }
+                if(bounds.contains(neighborhood_markers[16].location) && data[i].neighborhood_number == 17)
+                {
+                    temp.push(data[i]);
+                }
+                
             }
         });
+        //console.log(temp);
+        app.table.items = temp;
     });
-    */
+    
     map.on('moveend', function() {
         let center = map.getCenter();
         app.map.center.lat = center.lat;

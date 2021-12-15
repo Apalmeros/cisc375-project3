@@ -45,6 +45,37 @@
         <input v-model="map.center.address"></input><br>
         <button type="button" v-on:click="nominationSearch"> GO </button>
 
+        <input type="checkbox" id="Murder" name="Murder" value="110">
+        <label for="Murder">Murder</label>
+        <input type="checkbox" id="Rape" name="Rape" value="210">
+        <label for="Rape">Rape</label>
+        <input type="checkbox" id="Robbery" name="Robbery" value="300">
+        <label for="Robbery">Robbery</label>
+        <input type="checkbox" id="Aggravated Assault" name="Aggravated Assault" value="400">
+        <label for="Aggravated Assault">Aggravated Assault</label>
+        <input type="checkbox" id="Burglary" name="Burglary" value="500">
+        <label for="Burglary">Burglary</label>
+        <input type="checkbox" id="Theft" name="Theft" value="600">
+        <label for="Theft">Theft</label>
+        <input type="checkbox" id="Other" name="Other" value="614">
+        <label for="Other">Other</label>
+        <input type="checkbox" id="Motor Vehicle Theft" name="Motor Vehicle Theft" value="700">
+        <label for="Motor Vehicle Theft">Motor Vehicle Theft</label>
+        <input type="checkbox" id="Assult" name="Assault" value="810">
+        <label for="Assult">Assult</label>
+        <input type="checkbox" id="Arson" name="Arson" value="900">
+        <label for="Arson">Arson</label>
+        <input type="checkbox" id="Criminal Damage to Property" name="Criminal Damage to Property" value="1400">
+        <label for="Criminal Damage to Property">Criminal Damage to Property</label>
+        <input type="checkbox" id="Narcotics" name="Narcotics" value="1800">
+        <label for="Narcotics">Narcotics</label>
+        <input type="checkbox" id="Weapons" name="Weapons" value="2619">
+        <label for="Weapons">Weapons</label>
+        <input type="checkbox" id="Proactive Police Visit" name="Proactive Police Visit" value="9954">
+        <label for="Proactive Police Visit">Proactive Police Visit</label>
+        <input type="checkbox" id="Community Engagement Event" name="Community Engagement Event" value="9959">
+        <label for="Community Engagement Event">Community Engagement Event</label>
+
         <table>
             <thead>
                 <tr>
@@ -62,7 +93,7 @@
             <tbody>
                 <tr v-for="item in table.items">
                     <td>{{ item.case_number }}</td>
-                    <td>{{ item.date}}</td>
+                    <td>{{ item.date }}</td>
                     <td>{{ item.time}}</td>
                     <td>{{ item.code}}</td>
                     <td>{{ item.incident}}</td>
