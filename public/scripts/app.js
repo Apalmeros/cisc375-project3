@@ -52,6 +52,22 @@ function init() {
             //get request for url lat and long address
             //https://nominatim.openstreetmap.org/search?q=University%20of%20St.%20Thomas&format=json&accept-language=en           
          
+        },
+        methods: {
+            getIncidentType: function(item){
+                let i;
+                for(i = 0; i < codes_incident_types.length; i++ )
+                {
+                    //if statements for each code type and then set it equal to the type
+                }
+            },
+            getneighborhoodName: function(item){
+                let i;
+                for(i = 0; i < neighborhood_names.length; i++)
+                {
+
+                }
+            }
         }
     });
     
@@ -162,6 +178,7 @@ function init() {
             }
         });
         //console.log(temp);
+        //check tmep.data[i].incident_type = murder change color (inline color change)
         app.table.items = temp;
     });
     
@@ -207,7 +224,7 @@ function init() {
     });
 
     var incident_marker = L.icon({
-        iconUrl: "",
+        iconUrl: "images/map-marker-2.png",
 
         iconSize:       [(30), (50)], // size of incident icon
         iconAnchor:     [(15), (50)], // point of the icon which will correspond to marker's location
@@ -347,7 +364,7 @@ function init() {
     let addMarker = getJSON(crime_url);
     addMarker.then((data) => {
         let incident_marker = [];
-        
+        // get the block and send it to nomination reverse to get lat long and push those to incident marker location
         L.marker(incident_marker[0].location, {icon: incident_marker}).addTo(map);
     });
 }
