@@ -206,6 +206,14 @@ function init() {
         popupAnchor:  [(0), (0)] // point from which the popup should open relative to the iconAnchor
     });
 
+    var incident_marker = L.icon({
+        iconUrl: "",
+
+        iconSize:       [(30), (50)], // size of incident icon
+        iconAnchor:     [(15), (50)], // point of the icon which will correspond to marker's location
+        popupAnchor:    [(0), (0)]    // point from which the popup should open relative to the iconAnchor
+    });
+
     let neighborhood_count = getJSON(crime_url + "/incidents");
     neighborhood_count.then((data) => {
         //console.log(data);
@@ -334,6 +342,13 @@ function init() {
         L.marker(neighborhood_markers[14].location, {icon: map_marker}).addTo(map).bindPopup(marker_string_15);
         L.marker(neighborhood_markers[15].location, {icon: map_marker}).addTo(map).bindPopup(marker_string_16);
         L.marker(neighborhood_markers[16].location, {icon: map_marker}).addTo(map).bindPopup(marker_string_17);
+    });
+
+    let addMarker = getJSON(crime_url);
+    addMarker.then((data) => {
+        let incident_marker = [];
+        
+        L.marker(incident_marker[0].location, {icon: incident_marker}).addTo(map);
     });
 }
 function getJSON(url) {
