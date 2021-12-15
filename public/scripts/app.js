@@ -74,15 +74,14 @@ function init() {
                 {
                     return "redRow";
                 }
-                if(item == 600)
+                else if(item == 600)
                 {
                     return "yellowRow"
                 }
-                else{
+                else
+                {
                     return "blueRow";
                 }
-                
-
             },
             addMarker(event)
             {
@@ -102,7 +101,6 @@ function init() {
                             let longitude = data[0].lon;
                             map.panTo(new L.LatLng(latitude, longitude));
                             L.marker([latitude, longitude], {icon: incident_marker}).addTo(map);
-
                         });
                     }
 
