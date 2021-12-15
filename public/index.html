@@ -44,7 +44,9 @@
         <label>Location Name</label>
         <input v-model="map.center.address"></input><br>
         <button type="button" v-on:click="nominationSearch"> GO </button>
-
+        <br>
+        <br>
+        <h2>Filter For Incident Types</h2>
         <!-- Checkboxes for Incident types-->
         <input type="checkbox" id="Murder" name="Murder" value="110">
         <label for="Murder">Murder</label>
@@ -77,6 +79,9 @@
         <input type="checkbox" id="Community Engagement Event" name="Community Engagement Event" value="9959">
         <label for="Community Engagement Event">Community Engagement Event</label>
 
+        <br>
+        <br>
+        <h2>Filter For Neighborhoods</h2>
         <!---Check boxes for neighborhoods-->
         <input type="checkbox" id="Conway/Battlecreek/Highwood" name="Conway/Battlecreek/Highwood" value="1">
         <label for="Conway/Battlecreek/Highwood">Conway/Battlecreek/Highwood</label>
@@ -112,7 +117,20 @@
         <label for="Summit Hill">Summit Hill</label>
         <input type="checkbox" id="Capitol River" name="Capitol River" value="17">
         <label for="Capitol River">Capitol River</label>
-
+        <br>
+        <br>
+        <h2>Filter For Date</h2>
+        <input id="searchDate" type="text" ></input>
+        <button type="button" > Go </button><br>
+        <br>
+        <h2>Filter For Time</h2>
+        <input id="searchTime" type="text" ></input>
+        <button type="button" > Go </button><br>
+        <br>
+        <h2>Filter for Max Incidents</h2>
+        <input id="searchMax" type="text" ></input>
+        <button type="button" > Go </button><br>
+        <br>
         <table>
             <thead>
                 <tr>
@@ -127,8 +145,9 @@
                 </tr>
             </thead>
             
-            <tbody>
-                <tr v-for="item in table.items">
+            <tbody id="tobody1">
+                <!--:class="getTableClass(item.code)"-->
+                <tr v-for="(item, index) in table.items" id="test" :class="getTableClass(item.code)">
                     <td>{{ item.case_number }}</td>
                     <td>{{ item.date }}</td>
                     <td>{{ item.time}}</td>
@@ -137,7 +156,9 @@
                     <td>{{ item.police_grid}}</td>
                     <td>{{ item.neighborhood_number}}</td>
                     <td>{{ item.block}}</td>
+                    <td><label for="test"><button type="button"  :id="index" @click="addMarker">GO</button></label></td>
                 </tr>
+                <label for=""></label>
             </tbody>
             
         </table>

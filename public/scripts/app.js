@@ -52,6 +52,62 @@ function init() {
             //get request for url lat and long address
             //https://nominatim.openstreetmap.org/search?q=University%20of%20St.%20Thomas&format=json&accept-language=en           
          
+        },
+        methods: {
+            getIncidentType: function(item){
+                let i;
+                for(i = 0; i < codes_incident_types.length; i++ )
+                {
+                    //if statements for each code type and then set it equal to the type
+                }
+            },
+            getneighborhoodName: function(item){
+                let i;
+                for(i = 0; i < neighborhood_names.length; i++)
+                {
+
+                }
+            },
+            getTableClass(item)
+            {
+                if(item <= 374 && item >= 300)
+                {
+                    return "redRow";
+                }
+                if(item == 600)
+                {
+                    return "yellowRow"
+                }
+                else{
+                    return "blueRow";
+                }
+                
+
+            },
+            addMarker(event)
+            {
+                let i;
+                let value =  event.target.id;
+                console.log(value);
+                let num = parseInt(value);
+                console.log(num);
+                for(i = 0; i < app.table.items.length; i++)
+                {
+                    if(i == num)
+                    {
+                        console.log(app.table.items[i].block);
+                        let url = getJSON("https:nominatim.openstreetmap.org/search?q=" + app.table.items[i].block + "&format=json&accept-language=en");
+                        url.then((data) => {
+                            let latitude = data[0].lat;
+                            let longitude = data[0].lon;
+                            map.panTo(new L.LatLng(latitude, longitude));
+                            L.marker([latitude, longitude], {icon: incident_marker}).addTo(map);
+
+                        });
+                    }
+
+                }
+            }
         }
     });
     
@@ -69,6 +125,8 @@ function init() {
             app.table.neighborhood_names.push(data[1][i]);
         }
     });
+
+    
     //create vue on-click button with address input.
     //change app.map.center.lat and app.map.center.lng to new lat and lng of address
     //change bounds
@@ -162,6 +220,7 @@ function init() {
             }
         });
         //console.log(temp);
+        //check tmep.data[i].incident_type = murder change color (inline color change)
         app.table.items = temp;
     });
     
@@ -204,6 +263,14 @@ function init() {
         iconSize:     [(30), (50)], // size of the icon
         iconAnchor:   [(15), (50)], // point of the icon which will correspond to marker's location
         popupAnchor:  [(0), (0)] // point from which the popup should open relative to the iconAnchor
+    });
+
+    var incident_marker = L.icon({
+        iconUrl: "images/map-marker-2.png",
+
+        iconSize:       [(30), (50)], // size of incident icon
+        iconAnchor:     [(15), (50)], // point of the icon which will correspond to marker's location
+        popupAnchor:    [(0), (0)]    // point from which the popup should open relative to the iconAnchor
     });
 
     let neighborhood_count = getJSON(crime_url + "/incidents");
@@ -335,6 +402,8 @@ function init() {
         L.marker(neighborhood_markers[15].location, {icon: map_marker}).addTo(map).bindPopup(marker_string_16);
         L.marker(neighborhood_markers[16].location, {icon: map_marker}).addTo(map).bindPopup(marker_string_17);
     });
+
+    
 }
 function getJSON(url) {
     return new Promise((resolve, reject) => {
