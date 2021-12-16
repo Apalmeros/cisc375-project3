@@ -150,7 +150,7 @@ function init() {
     
     let json_codes = getJSON(crime_url + "/codes");
     let json_neighborhoods = getJSON(crime_url + "/neighborhoods");
-    let json_incidents = getJSON(crime_url + "/incidents?limit=50");
+    let json_incidents = getJSON(crime_url + "/incidents?limit=100");
     
     Promise.all([json_codes, json_neighborhoods]).then((data) => {
         for(let i=0; i<data[0].length; i++)
