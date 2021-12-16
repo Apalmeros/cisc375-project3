@@ -54,18 +54,24 @@ function init() {
          
         },
         methods: {
-            getIncidentType: function(item){
+            getIncidentType(item){
                 let i;
-                for(i = 0; i < codes_incident_types.length; i++ )
+                for(i = 0; i <app.table.codes_incident_types.length; i++ )
                 {
-                    //if statements for each code type and then set it equal to the type
+                    if(item == app.table.codes_incident_types[i].code)
+                    {
+                        return app.table.codes_incident_types[i].type;
+                    }
                 }
             },
-            getneighborhoodName: function(item){
+            getNeighborhoodName(item){
                 let i;
-                for(i = 0; i < neighborhood_names.length; i++)
+                for(i = 0; i <app.table.neighborhood_names.length; i++)
                 {
-
+                    if(item == app.table.neighborhood_names[i].id)
+                    {
+                        return app.table.neighborhood_names[i].name;
+                    }
                 }
             },
             getTableClass(item)
@@ -108,16 +114,16 @@ function init() {
             {
                 let i;
                 let value =  event.target.id;
-                console.log(value);
+                //console.log(value);
                 let num = parseInt(value);
-                console.log(num);
+                //console.log(num);
                 let marker_string = '';
                 let btn = document.createElement('button');
                 for(i = 0; i < app.table.items.length; i++)
                 {
                     if(i == num)
                     {
-                        console.log(app.table.items[i].block);
+                        //console.log(app.table.items[i].block);
                         marker_string = 'Date: ' + app.table.items[i].date + ' Time: ' + app.table.items[i].time + ' Incident: ' + app.table.items[i].incident;
                         let url = getJSON("https:nominatim.openstreetmap.org/search?q=" + app.table.items[i].block + "&format=json&accept-language=en");
                         url.then((data) => {
@@ -126,12 +132,14 @@ function init() {
                             app.map.center.lat = data[0].lat;
                             app.map.center.lng = data[0].lon;
                             map.panTo(new L.LatLng(app.map.center.lat, app.map.center.lng));
+
                             var mp = L.marker([app.map.center.lat,app.map.center.lng], {icon: incident_marker}).addTo(map).bindPopup(marker_string + '</br>' + btn);
 
                             btn.innerText = 'Delete Marker';
                             btn.onclick =  function() {
                                 map.removeLayer(mp);
                             }
+
 
                         });
                     }
@@ -174,6 +182,8 @@ function init() {
         app.table.items = [];
         let temp = [];
         let bounds = map.getBounds();
+        let search = 'X';
+        let replaceWith = '0';
         json_incidents.then((data) =>{
             //console.log(data);
 
@@ -247,11 +257,8 @@ function init() {
                 {
                     temp.push(data[i]);
                 }
-                
             }
         });
-        //console.log(temp);
-        //check tmep.data[i].incident_type = murder change color (inline color change)
         app.table.items = temp;
     });
     
