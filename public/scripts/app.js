@@ -70,16 +70,37 @@ function init() {
             },
             getTableClass(item)
             {
-                if(item <= 374 && item >= 300)
+                if(item <= 453 && item >= 400)
                 {
                     return "redRow";
                 }
-                else if(item == 600)
+
+                if(item <= 982 && item >= 900)
+                {
+                    return "redRow";
+                }
+                if(item <= 220 && item >= 210)
+                {
+                    return "redRow";
+                }
+                if(item <= 863 && item >= 810)
+                {
+                    return "redRow";
+                }
+                if(item <= 566 && item >= 500)
                 {
                     return "yellowRow"
                 }
-                else
+                if(item <= 613 && item >= 600)
                 {
+                    return "yellowRow";
+                }
+                if(item <= 722 && item >= 621)
+                {
+                    return "yellowRow";
+                }
+                else{
+
                     return "blueRow";
                 }
             },
@@ -90,19 +111,22 @@ function init() {
                 console.log(value);
                 let num = parseInt(value);
                 console.log(num);
+                let marker_string = '';
                 for(i = 0; i < app.table.items.length; i++)
                 {
                     if(i == num)
                     {
                         console.log(app.table.items[i].block);
+                        marker_string = 'Date: ' + app.table.items[i].date + ' Time: ' + app.table.items[i].time + ' Incident: ' + app.table.items[i].incident;
                         let url = getJSON("https:nominatim.openstreetmap.org/search?q=" + app.table.items[i].block + "&format=json&accept-language=en");
                         url.then((data) => {
-                            //let latitude = data[0].lat;
-                            //let longitude = data[0].lon;
+
+
                             app.map.center.lat = data[0].lat;
                             app.map.center.lng = data[0].lon;
                             map.panTo(new L.LatLng(app.map.center.lat, app.map.center.lng));
-                            L.marker([app.map.center.lat,app.map.center.lng], {icon: incident_marker}).addTo(map);
+                            L.marker([app.map.center.lat,app.map.center.lng], {icon: incident_marker}).addTo(map).bindPopup(marker_string);
+
 
                         });
                     }
