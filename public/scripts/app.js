@@ -98,10 +98,12 @@ function init() {
                         console.log(app.table.items[i].block);
                         let url = getJSON("https:nominatim.openstreetmap.org/search?q=" + app.table.items[i].block + "&format=json&accept-language=en");
                         url.then((data) => {
-                            let latitude = data[0].lat;
-                            let longitude = data[0].lon;
-                            map.panTo(new L.LatLng(latitude, longitude));
-                            L.marker([latitude, longitude], {icon: incident_marker}).addTo(map);
+                            //let latitude = data[0].lat;
+                            //let longitude = data[0].lon;
+                            app.map.center.lat = data[0].lat;
+                            app.map.center.lng = data[0].lon;
+                            map.panTo(new L.LatLng(app.map.center.lat, app.map.center.lng));
+                            L.marker([app.map.center.lat,app.map.center.lng], {icon: incident_marker}).addTo(map);
 
                         });
                     }
