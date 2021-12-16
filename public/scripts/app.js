@@ -74,6 +74,7 @@ function init() {
                 {
                     return "redRow";
                 }
+
                 if(item <= 982 && item >= 900)
                 {
                     return "redRow";
@@ -99,10 +100,9 @@ function init() {
                     return "yellowRow";
                 }
                 else{
+
                     return "blueRow";
                 }
-                
-
             },
             addMarker(event)
             {
@@ -120,10 +120,13 @@ function init() {
                         marker_string = 'Date: ' + app.table.items[i].date + ' Time: ' + app.table.items[i].time + ' Incident: ' + app.table.items[i].incident;
                         let url = getJSON("https:nominatim.openstreetmap.org/search?q=" + app.table.items[i].block + "&format=json&accept-language=en");
                         url.then((data) => {
-                            let latitude = data[0].lat;
-                            let longitude = data[0].lon;
-                            map.panTo(new L.LatLng(latitude, longitude));
-                            L.marker([latitude, longitude], {icon: incident_marker}).addTo(map).bindPopup(marker_string);
+
+
+                            app.map.center.lat = data[0].lat;
+                            app.map.center.lng = data[0].lon;
+                            map.panTo(new L.LatLng(app.map.center.lat, app.map.center.lng));
+                            L.marker([app.map.center.lat,app.map.center.lng], {icon: incident_marker}).addTo(map).bindPopup(marker_string);
+
 
                         });
                     }
