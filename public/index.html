@@ -140,13 +140,13 @@
         <table>
             <thead>
                 <tr>
-                    <th>Case_Number</th>
+                    <th>Case Number</th>
                     <th>Date</th>
                     <th>Time</th>
-                    <th>Code</th>
+                    <th>Type</th>
                     <th>Incident</th>
-                    <th>Police_Grid</th>
-                    <th>Neighborhood_Number</th>
+                    <th>Police Grid</th>
+                    <th>Neighborhood Name</th>
                     <th>Block</th>
                 </tr>
             </thead>
@@ -157,10 +157,10 @@
                     <td>{{ item.case_number }}</td>
                     <td>{{ item.date }}</td>
                     <td>{{ item.time}}</td>
-                    <td>{{ item.code}}</td>
+                    <td>{{ getIncidentType(item.code) }}</td>
                     <td>{{ item.incident}}</td>
                     <td>{{ item.police_grid}}</td>
-                    <td>{{ item.neighborhood_number}}</td>
+                    <td>{{ getNeighborhoodName(item.neighborhood_number) }}</td>
                     <td>{{ item.block}}</td>
                     <td><label for="test"><button type="button"  :id="index" @click="addMarker">GO</button></label></td>
                 </tr>
