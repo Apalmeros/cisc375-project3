@@ -133,9 +133,9 @@ function init() {
                             app.map.center.lng = data[0].lon;
                             map.panTo(new L.LatLng(app.map.center.lat, app.map.center.lng));
 
-                            var mp = L.marker([app.map.center.lat,app.map.center.lng], {icon: incident_marker}).addTo(map).bindPopup(marker_string + '</br>' + btn);
+                            var mp = L.marker([app.map.center.lat,app.map.center.lng], {icon: incident_marker}).addTo(map).bindPopup(btn);
 
-                            btn.innerText = 'Delete Marker';
+                            btn.innerText =  marker_string + '\n' + '(Click to Delete Marker)';
                             btn.onclick =  function() {
                                 map.removeLayer(mp);
                             }
