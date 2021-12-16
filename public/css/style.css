@@ -1,7 +1,10 @@
 * {
     margin: 0 auto;
 }
-
+body
+{
+    background-color: lightgrey;
+}
 #leafletmap {
     width: 800px;  /* feel free to change this! */
     height: 600px; /* feel free to change this! */
@@ -23,4 +26,34 @@ th,td,tr{
 }
 .blueRow{
     background-color: rgb(85, 85, 170);
+}
+#headert
+{
+    text-align: center;
+    text-decoration: underline;
+    margin-bottom: 20px;
+}
+#lat_lon_label
+{
+    text-align: center;
+    font-size: x-large;
+}
+#location_label
+{
+    text-align: center;
+    margin-top: 20px;
+    font-size: x-large;
+}
+#f_incident
+{
+    text-align: center;
+}
+#f_neighborhood
+{
+    text-align: center;
+}
+#legend
+{
+    text-align: center;
+    font-size: large;
 }
