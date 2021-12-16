@@ -74,15 +74,14 @@ function init() {
                 {
                     return "redRow";
                 }
-                if(item == 600)
+                else if(item == 600)
                 {
                     return "yellowRow"
                 }
-                else{
+                else
+                {
                     return "blueRow";
                 }
-                
-
             },
             addMarker(event)
             {
