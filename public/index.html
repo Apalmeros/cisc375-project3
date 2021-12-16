@@ -119,20 +119,9 @@
         <label for="Capitol River">Capitol River</label>
         <br>
         <br>
-        <h2>Filter For Date</h2>
-        <input id="searchDate" type="text" ></input>
-        <button type="button" > Go </button><br>
-        <br>
-        <h2>Filter For Time</h2>
-        <input id="searchTime" type="text" ></input>
-        <button type="button" > Go </button><br>
-        <br>
-        <h2>Filter for Max Incidents</h2>
-        <input id="searchMax" type="text" ></input>
-        <button type="button" > Go </button><br>
-        <br>
         
-        <p> LEGEND </p>
+        
+        <p> LEGEND: </p>
             <p style = "background-color: rgb(194, 73, 73);"> Crimes against a person </p>
             <p style = "background-color: rgb(209, 209, 90);"> Crimes against property </p>
             <p style = "background-color: rgb(85, 85, 170);"> Other </p> <br>
@@ -164,7 +153,7 @@
                     <td>{{ item.block}}</td>
                     <td><label for="test"><button type="button"  :id="index" @click="addMarker">GO</button></label></td>
                 </tr>
-                <label>Legend: Crimes Against a Person: Red    Crimes Against Property: Yellow  Other: Blue</label>
+                
             </tbody>
             
         </table>
