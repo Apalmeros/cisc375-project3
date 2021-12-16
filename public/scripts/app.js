@@ -112,6 +112,7 @@ function init() {
                 let num = parseInt(value);
                 console.log(num);
                 let marker_string = '';
+                let btn = document.createElement('button');
                 for(i = 0; i < app.table.items.length; i++)
                 {
                     if(i == num)
@@ -125,14 +126,19 @@ function init() {
                             app.map.center.lat = data[0].lat;
                             app.map.center.lng = data[0].lon;
                             map.panTo(new L.LatLng(app.map.center.lat, app.map.center.lng));
-                            L.marker([app.map.center.lat,app.map.center.lng], {icon: incident_marker}).addTo(map).bindPopup(marker_string);
+                            var mp = L.marker([app.map.center.lat,app.map.center.lng], {icon: incident_marker}).addTo(map).bindPopup(marker_string + '</br>' + btn);
 
+                            btn.innerText = 'Delete Marker';
+                            btn.onclick =  function() {
+                                map.removeLayer(mp);
+                            }
 
                         });
                     }
 
                 }
             }
+            
         }
     });
     

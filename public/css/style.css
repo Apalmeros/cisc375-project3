@@ -16,11 +16,11 @@ th,td,tr{
     border-radius: 5px;
 }
 .redRow{
-    background-color: red;
+    background-color: rgb(194, 73, 73);
 }
 .yellowRow{
-    background-color: yellow;
+    background-color: rgb(209, 209, 90);
 }
 .blueRow{
-    background-color: blue;
+    background-color: rgb(85, 85, 170);
 }
