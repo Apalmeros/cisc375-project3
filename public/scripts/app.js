@@ -126,8 +126,6 @@ function init() {
                         marker_string = 'Date: ' + app.table.items[i].date + ' Time: ' + app.table.items[i].time + ' Incident: ' + app.table.items[i].incident;
                         let url = getJSON("https:nominatim.openstreetmap.org/search?q=" + app.table.items[i].block + "&format=json&accept-language=en");
                         url.then((data) => {
-
-
                             app.map.center.lat = data[0].lat;
                             app.map.center.lng = data[0].lon;
                             map.panTo(new L.LatLng(app.map.center.lat, app.map.center.lng));
@@ -247,6 +245,10 @@ function init() {
                 {
                     temp.push(data[i]);
                 }
+            }
+            for(let i=0; i<temp.length; i++)
+            {
+                temp[i].block = temp[i].block.split(search).join(replaceWith);
             }
         });
         app.table.items = temp;
