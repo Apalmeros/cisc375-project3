@@ -1,8 +1,59 @@
 * {
     margin: 0 auto;
 }
-
+body
+{
+    background-color: lightgrey;
+}
 #leafletmap {
     width: 800px;  /* feel free to change this! */
     height: 600px; /* feel free to change this! */
+}
+table{
+    width: 100%;
+    border:  1px solid black;
+    border-radius: 5px;
+}
+th,td,tr{
+    border:  1px solid black;
+    border-radius: 5px;
+}
+.redRow{
+    background-color: rgb(194, 73, 73);
+}
+.yellowRow{
+    background-color: rgb(209, 209, 90);
+}
+.blueRow{
+    background-color: rgb(85, 85, 170);
+}
+#headert
+{
+    text-align: center;
+    text-decoration: underline;
+    margin-bottom: 20px;
+}
+#lat_lon_label
+{
+    text-align: center;
+    font-size: x-large;
+}
+#location_label
+{
+    text-align: center;
+    margin-top: 20px;
+    font-size: x-large;
+}
+#f_incident
+{
+    text-align: center;
+}
+#f_neighborhood
+{
+    text-align: center;
+}
+#legend
+{
+    text-align: center;
+    font-size: large;
 }

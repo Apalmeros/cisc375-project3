@@ -3,16 +3,27 @@
     "version": "0.0.0",
     "description": "RESTful Web Server and Single Page Application",
     "author": {
-        "name": "Nolan Jones",
-        "email": "Jone1905@stthomas.edu"
+        "name": "Antonio Palmeros",
+        "email": "palm1403@stthomas.edu"
     },
+    "contributors": [
+        {
+            "name": "Lucas Everson",
+            "email": "ever5748@stthomas.edu"
+        },
+        {
+            "name": "Nolan Jones",
+            "email": "Jone1905@stthomas.edu"
+        }
+    ],
     "main": "server.js",
     "repository": {
         "type": "git",
-        "url": ""
+        "url": "https://github.com/Apalmeros/cisc375-project3"
     },
     "dependencies": {
+        "cors": "^2.8.5",
         "express": "^4.17.1",
-        "sqlite3": "^4.1.0"
+        "sqlite3": "^5.0.2"
     }
 }
